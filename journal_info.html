@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/logo/logo.png" sizes="20x20">
+    <title>Learning Journal Features - Hyper Tutor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Lexend, sans-serif;
+            background: #0a0f0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0f0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00ff88, #00cc6a);
+            border-radius: 4px;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 15, 10, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #00ff88;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo::before {
+            content: "⚡";
+            font-size: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00ff88;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0f0a;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        .back-btn {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .back-btn::before {
+            content: '←';
+            font-size: 1.1rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding-top: 150px;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 204, 106, 0.1) 0%, transparent 50%);
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #00ff88;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #ffffff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0f0a;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 1.2rem 2.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #00ff88;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #00ff88;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Journal Preview */
+        .journal-preview {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .journal-preview::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff88, transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        .journal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .journal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .journal-date {
+            color: #00ff88;
+            font-size: 0.9rem;
+        }
+
+        .journal-entry {
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .entry-label {
+            font-size: 0.9rem;
+            color: #00ff88;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .entry-content {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .mood-indicators {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .mood-tag {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Features Grid */
+        .features-section {
+            padding: 8rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(0, 255, 136, 0.03), transparent);
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 3rem;
+            margin-top: 6rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ff88;
+            box-shadow: 0 25px 80px rgba(0, 255, 136, 0.25);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .feature-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .feature-benefits {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .feature-benefits li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+        }
+
+        .feature-benefits li::before {
+            content: '✓';
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        /* Interactive Demo */
+        .demo-section {
+            padding: 8rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            margin-top: 4rem;
+        }
+
+        .demo-content h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .demo-content p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .demo-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .demo-features li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .demo-features li::before {
+            content: '🎯';
+            font-size: 1.2rem;
+        }
+
+        .interactive-journal {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            position: relative;
+            min-height: 500px;
+        }
+
+        .journal-interface {
+            width: 100%;
+        }
+
+        .interface-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .interface-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .new-entry-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0f0a;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .entry-form {
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            color: #00ff88;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #00ff88;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .performance-slider {
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            outline: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .slider:hover {
+            opacity: 1;
+        }
+
+        .slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #00ff88;
+            cursor: pointer;
+        }
+
+        .slider-value {
+            color: #00ff88;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .tag-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tag.active {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .tag:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+        }
+
+        /* AI Insights */
+        .insights-section {
+            padding: 8rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), rgba(0, 204, 106, 0.03));
+        }
+
+        .insights-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .insight-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .insight-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ff88;
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+        }
+
+        .insight-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .insight-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .insight-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .insight-example {
+            background: rgba(0, 255, 136, 0.1);
+            border-left: 3px solid #00ff88;
+            padding: 1rem;
+            border-radius: 8px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 8rem 2rem;
+            background: 
+                linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 106, 0.1)),
+                radial-gradient(ellipse at center, rgba(0, 255, 136, 0.2) 0%, transparent 70%);
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .cta-description {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+
+            .demo-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="logo">Hyper Tutor</a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#insights">AI Insights</a></li>
+                <li><a href="#integrations">Integrations</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="landing_page.html" class="back-btn">Back to Home</a>
+                <a href="#" class="cta-btn">Try Journal Free</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M169 57v430h78V57h-78zM25 105v190h46V105H25zm158 23h18v320h-18V128zm128.725 7.69l-45.276 8.124 61.825 344.497 45.276-8.124-61.825-344.497zM89 153v270h62V153H89zm281.502 28.68l-27.594 11.773 5.494 12.877 27.594-11.773-5.494-12.877zm12.56 29.433l-27.597 11.772 5.494 12.877 27.593-11.772-5.492-12.877zm12.555 29.434l-27.594 11.77 99.674 233.628 27.594-11.773-99.673-233.625zM25 313v30h46v-30H25zm190 7h18v128h-18V320zM25 361v126h46V361H25zm64 80v46h62v-46H89z"></path></svg></span>
+                    <span>Most loved feature by 94% of users</span>
+                </div>
+                <h1>Smart Learning Journal</h1>
+                <p class="hero-subtitle">
+                    Transform your learning journey with intelligent reflection, progress tracking, and AI-powered insights. 
+                    Document achievements, identify patterns, and accelerate your growth like never before.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn-primary">Start Journaling Free</a>
+                    <a href="#" class="btn-secondary">Watch Demo</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">2.5M+</span>
+                        <span class="stat-label">Journal Entries</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">89%</span>
+                        <span class="stat-label">Goal Achievement</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">4.9/5</span>
+                        <span class="stat-label">User Rating</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="journal-preview">
+                <div class="journal-header">
+                    <div class="journal-title">Today's Learning</div>
+                    <div class="journal-date">July 22, 2024</div>
+                </div>
+
+                <div class="journal-entry">
+                    <div class="entry-label">What did you learn today?</div>
+                    <div class="entry-content">
+                        Mastered React Hooks today! Finally understood useEffect dependencies and how to optimize re-renders. 
+                        The AI tutor's explanations about closure and dependency arrays were incredibly helpful.
+                    </div>
+                </div>
+
+                <div class="journal-entry">
+                    <div class="entry-label">Challenges you faced</div>
+                    <div class="entry-content">
+                        Struggled with async operations in useEffect. Took some time to understand cleanup functions.
+                    </div>
+                </div>
+
+                <div class="mood-indicators">
+                    <div class="mood-tag">Focused</div>
+                    <div class="mood-tag">Challenged</div>
+                    <div class="mood-tag">Flow State</div>
+                </div>
+
+                <div class="journal-entry">
+                    <div class="entry-label">Daily Performance: 8/10</div>
+                    <div class="entry-content">
+                        AI Insight: Your consistency in React learning is paying off! Consider diving deeper into custom hooks next.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="features-container">
+            <div class="section-header scroll-animate">
+                <div class="section-badge">Core Features</div>
+                <h2 class="section-title">Everything You Need for Effective Learning Reflection</h2>
+                <p class="section-subtitle">
+                    A comprehensive journaling system designed to capture insights, track progress, 
+                    and provide AI-powered recommendations for accelerated learning.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M15.502 1.94a.5.5 0 010 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 01.707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 00-.121.196l-.805 2.414a.25.25 0 00.316.316l2.414-.805a.5.5 0 00.196-.12l6.813-6.814z"></path><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 002.5 15h11a1.5 1.5 0 001.5-1.5v-6a.5.5 0 00-1 0v6a.5.5 0 01-.5.5h-11a.5.5 0 01-.5-.5v-11a.5.5 0 01.5-.5H9a.5.5 0 000-1H2.5A1.5 1.5 0 001 2.5v11z" clip-rule="evenodd"></path></svg></span>
+                    <h3 class="feature-title">Daily Reflection Prompts</h3>
+                    <p class="feature-description">
+                        Structured prompts guide your reflection process, helping you capture key learnings, 
+                        challenges, and breakthrough moments from each study session.
+                    </p>
+                    <ul class="feature-benefits">
+                        <li>Customizable reflection questions</li>
+                        <li>Subject-specific prompts</li>
+                        <li>Progressive complexity based on your level</li>
+                        <li>Voice-to-text input support</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M379.4 178.3l-87.2 133.4C299 320 303 330.5 303 342c0 26.5-21.5 48-48 48s-48-21.5-48-48c0-3 .3-6 .8-8.9l-57.6-33.5c-8.6 8.3-20.3 13.4-33.3 13.4-8.6 0-16.6-2.3-23.6-6.2L32 364.2v57.2c0 23.5 19.2 42.7 42.7 42.7h362.7c23.5 0 42.7-19.2 42.7-42.7V208.8l-58.6-38.9c-8.1 6.3-18.3 10.1-29.4 10.1-4.4 0-8.7-.6-12.7-1.7z"></path><path d="M117 217c26.5 0 48 21.5 48 48 0 2.1-.2 4.2-.4 6.2l60.1 33.6c8.3-6.8 18.8-10.8 30.4-10.8 3.6 0 7.1.4 10.4 1.1l87.4-135.4c-5.6-7.8-8.9-17.4-8.9-27.8 0-26.5 21.5-48 48-48s48 21.5 48 48c0 3.9-.5 7.7-1.3 11.3l41.3 27.6V90.7c0-23.5-19.2-42.7-42.7-42.7H74.7C51.2 48 32 67.2 32 90.7V320l40-38.3c-1.9-5.2-3-10.8-3-16.7 0-26.5 21.5-48 48-48z"></path></svg></span>
+                    <h3 class="feature-title">Performance Tracking</h3>
+                    <p class="feature-description">
+                        Rate your daily performance and track learning velocity with intuitive sliders 
+                        and visual progress indicators that adapt to your learning patterns.
+                    </p>
+                    <ul class="feature-benefits">
+                        <li>Daily performance ratings (1-10)</li>
+                        <li>Mood and energy level tracking</li>
+                        <li>Learning streak counters</li>
+                        <li>Productivity metrics visualization</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span>
+                    <h3 class="feature-title">Goal Setting & Milestones</h3>
+                    <p class="feature-description">
+                        Set meaningful learning goals and track progress with milestone celebrations. 
+                        Our system helps you maintain motivation and momentum.
+                    </p>
+                    <ul class="feature-benefits">
+                        <li>SMART goal framework integration</li>
+                        <li>Automatic milestone detection</li>
+                        <li>Achievement badges and rewards</li>
+                        <li>Progress visualization charts</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M483.2 790.3L861.4 412c1.7-1.7 2.5-4 2.3-6.3l-25.5-301.4c-.7-7.8-6.8-13.9-14.6-14.6L522.2 64.3c-2.3-.2-4.7.6-6.3 2.3L137.7 444.8a8.03 8.03 0 0 0 0 11.3l334.2 334.2c3.1 3.2 8.2 3.2 11.3 0zm122.7-533.4c18.7-18.7 49.1-18.7 67.9 0 18.7 18.7 18.7 49.1 0 67.9-18.7 18.7-49.1 18.7-67.9 0-18.7-18.7-18.7-49.1 0-67.9zm283.8 282.9l-39.6-39.5a8.03 8.03 0 0 0-11.3 0l-362 361.3-237.6-237a8.03 8.03 0 0 0-11.3 0l-39.6 39.5a8.03 8.03 0 0 0 0 11.3l243.2 242.8 39.6 39.5c3.1 3.1 8.2 3.1 11.3 0l407.3-406.6c3.1-3.1 3.1-8.2 0-11.3z"></path></svg></span>
+                    <h3 class="feature-title">Smart Tagging System</h3>
+                    <p class="feature-description">
+                        Organize your entries with intelligent tags for mood, productivity, focus levels, 
+                        and learning states. Find patterns and optimize your study approach.
+                    </p>
+                    <ul class="feature-benefits">
+                        <li>Pre-built tag categories</li>
+                        <li>Custom tag creation</li>
+                        <li>Tag-based entry filtering</li>
+                        <li>Pattern recognition analytics</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M2 6H0v5h.01L0 20c0 1.1.9 2 2 2h18v-2H2V6zm20-2h-8l-2-2H6c-1.1 0-1.99.9-1.99 2L4 16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM7 15l4.5-6 3.5 4.51 2.5-3.01L21 15H7z"></path></svg></span>
+                    <h3 class="feature-title">Rich Media Attachments</h3>
+                    <p class="feature-description">
+                        Enhance your entries with screenshots, code snippets, diagrams, and links. 
+                        Create a comprehensive record of your learning journey.
+                    </p>
+                    <ul class="feature-benefits">
+                        <li>Screenshot capture and annotation</li>
+                        <li>Code snippet highlighting</li>
+                        <li>File and link attachments</li>
+                        <li>Visual progress documentation</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.442 10.442a1 1 0 011.415 0l3.85 3.85a1 1 0 01-1.414 1.415l-3.85-3.85a1 1 0 010-1.415z" clip-rule="evenodd"></path><path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 100-11 5.5 5.5 0 000 11zM13 6.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z" clip-rule="evenodd"></path></svg></span>
+                    <h3 class="feature-title">Advanced Search & Insights</h3>
+                    <p class="feature-description">
+                        Powerful search capabilities help you find specific entries, track learning patterns, 
+                        and discover insights from your historical data.
+                    </p>
+                    <ul class="feature-benefits">
+                        <li>Full-text search across all entries</li>
+                        <li>Date range and tag filtering</li>
+                        <li>Trend analysis and insights</li>
+                        <li>Export capabilities for analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo -->
+    <section class="demo-section" id="demo">
+        <div class="demo-container">
+            <div class="section-header scroll-animate">
+                <div class="section-badge">Interactive Demo</div>
+                <h2 class="section-title">Experience the Journal Interface</h2>
+                <p class="section-subtitle">
+                    Try out the actual journal interface and see how easy it is to capture 
+                    your learning insights and track your progress.
+                </p>
+            </div>
+
+            <div class="demo-grid">
+                <div class="demo-content scroll-animate">
+                    <h3>Intuitive Learning Capture</h3>
+                    <p>
+                        Our streamlined interface makes it effortless to record your daily learning experiences. 
+                        With smart prompts and auto-suggestions, you'll never miss capturing important insights.
+                    </p>
+                    <ul class="demo-features">
+                        <li>One-click entry creation</li>
+                        <li>Smart auto-complete suggestions</li>
+                        <li>Voice input for hands-free logging</li>
+                        <li>Offline mode with sync capabilities</li>
+                        <li>Mobile-optimized interface</li>
+                    </ul>
+                </div>
+
+                <div class="interactive-journal scroll-animate">
+                    <div class="journal-interface">
+                        <div class="interface-header">
+                            <div class="interface-title">New Journal Entry</div>
+                            <button class="new-entry-btn">+ Add Entry</button>
+                        </div>
+
+                        <div class="entry-form">
+                            <div class="form-group">
+                                <label class="form-label">What did you learn today?</label>
+                                <textarea class="form-input" placeholder="Describe your key learnings and insights...">Today I learned about React's useEffect hook and how it manages side effects...</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">What challenges did you face?</label>
+                                <textarea class="form-input" placeholder="What obstacles did you encounter?">Understanding dependency arrays was tricky at first...</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Rate your performance (1-10): <span class="slider-value">7</span></label>
+                                <input type="range" min="1" max="10" value="7" class="slider" id="performanceSlider">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Mood & Productivity Tags</label>
+                                <div class="tag-group">
+                                    <div class="tag active">Focused</div>
+                                    <div class="tag">Challenged</div>
+                                    <div class="tag">Flow State</div>
+                                    <div class="tag">Distracted</div>
+                                    <div class="tag">Motivated</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Insights Section -->
+    <section class="insights-section" id="insights">
+        <div class="insights-container">
+            <div class="section-header scroll-animate">
+                <div class="section-badge">AI-Powered Insights</div>
+                <h2 class="section-title">Intelligent Feedback & Recommendations</h2>
+                <p class="section-subtitle">
+                    Our AI analyzes your journal entries to provide personalized insights, 
+                    identify learning patterns, and suggest optimizations for accelerated growth.
+                </p>
+            </div>
+
+            <div class="insights-grid">
+                <div class="insight-card scroll-animate">
+                    <span class="insight-icon">🧠</span>
+                    <h3 class="insight-title">Learning Pattern Analysis</h3>
+                    <p class="insight-description">
+                        AI identifies your optimal learning times, most effective study methods, 
+                        and correlations between your mood and performance.
+                    </p>
+                    <div class="insight-example">
+                        "You perform 40% better when studying in the morning and taking 15-minute breaks every hour."
+                    </div>
+                </div>
+
+                <div class="insight-card scroll-animate">
+                    <span class="insight-icon">🎯</span>
+                    <h3 class="insight-title">Personalized Recommendations</h3>
+                    <p class="insight-description">
+                        Get tailored suggestions for improving study habits, addressing knowledge gaps, 
+                        and optimizing your learning approach based on your journal data.
+                    </p>
+                    <div class="insight-example">
+                        "Consider reviewing JavaScript fundamentals - you've mentioned confusion about closures 3 times this week."
+                    </div>
+                </div>
+
+                <div class="insight-card scroll-animate">
+                    <span class="insight-icon">📈</span>
+                    <h3 class="insight-title">Progress Predictions</h3>
+                    <p class="insight-description">
+                        AI forecasts your learning trajectory and milestone achievement dates, 
+                        helping you set realistic goals and maintain motivation.
+                    </p>
+                    <div class="insight-example">
+                        "At your current pace, you'll master React concepts in approximately 3 weeks."
+                    </div>
+                </div>
+
+                <div class="insight-card scroll-animate">
+                    <span class="insight-icon">🔄</span>
+                    <h3 class="insight-title">Habit Formation Insights</h3>
+                    <p class="insight-description">
+                        Track and analyze your study habits to build consistency and identify 
+                        what conditions lead to your most productive learning sessions.
+                    </p>
+                    <div class="insight-example">
+                        "You've maintained a 14-day learning streak! Your consistency score has improved by 45%."
+                    </div>
+                </div>
+
+                <div class="insight-card scroll-animate">
+                    <span class="insight-icon">⚡</span>
+                    <h3 class="insight-title">Knowledge Gap Detection</h3>
+                    <p class="insight-description">
+                        Automatically identify areas where you need more practice or review 
+                        based on your confidence levels and challenge patterns.
+                    </p>
+                    <div class="insight-example">
+                        "You might benefit from additional practice with async/await - detected uncertainty in recent entries."
+                    </div>
+                </div>
+
+                <div class="insight-card scroll-animate">
+                    <span class="insight-icon">🌟</span>
+                    <h3 class="insight-title">Motivation Boosters</h3>
+                    <p class="insight-description">
+                        Receive encouragement and celebrate achievements with AI-generated 
+                        motivation based on your progress and learning milestones.
+                    </p>
+                    <div class="insight-example">
+                        "Amazing progress! You've solved 15 coding challenges this week - that's a 200% increase!"
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">Ready to Transform Your Learning?</h2>
+            <p class="cta-description">
+                Start your intelligent learning journal today and discover insights that will 
+                accelerate your growth and help you achieve your goals faster than ever before.
+            </p>
+            <div class="cta-buttons">
+                <a href="#" class="btn-primary">Start Journaling Free</a>
+                <a href="#" class="btn-secondary">Schedule Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all scroll-animate elements
+        document.querySelectorAll('.scroll-animate').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Interactive slider
+        const slider = document.getElementById('performanceSlider');
+        const sliderValue = document.querySelector('.slider-value');
+        
+        if (slider && sliderValue) {
+            slider.addEventListener('input', function() {
+                sliderValue.textContent = this.value;
+            });
+        }
+
+        // Tag interaction
+        document.querySelectorAll('.tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+
+        // Dynamic navigation background
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(10, 15, 10, 0.98)';
+                nav.style.borderBottom = '1px solid rgba(0, 255, 136, 0.3)';
+            } else {
+                nav.style.background = 'rgba(10, 15, 10, 0.95)';
+                nav.style.borderBottom = '1px solid rgba(0, 255, 136, 0.1)';
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add any initialization code here
+            console.log('Learning Journal Features page loaded');
+        });
+    </script>
+</body>
+</html>

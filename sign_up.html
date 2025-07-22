@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/logo/logo.png" sizes="20x20">
+    <title>Sign Up - Hyper Tutor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Lexend, sans-serif;
+            background: #0a0f0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 80px;
+        }
+
+        /* Background Elements */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 204, 106, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 40%, rgba(0, 255, 136, 0.08) 0%, transparent 50%);
+        }
+
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 255, 136, 0.3);
+            border-radius: 50%;
+            animation: float 8s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 15, 10, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #00ff88;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .logo::before {
+            content: "⚡";
+            font-size: 1.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .back-btn {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .back-btn:hover {
+            border-color: #00ff88;
+            color: #00ff88;
+            transform: translateY(-2px);
+        }
+
+        .back-btn::before {
+            content: '←';
+            font-size: 1.1rem;
+        }
+
+        .login-link {
+            color: #00ff88;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .login-link:hover {
+            color: #ffffff;
+        }
+
+        /* Main Container */
+        .signup-container {
+            width: 100%;
+            max-width: 480px;
+            margin: 2rem;
+            margin-top: 50px;
+            animation: fadeInUp 1s ease both;
+        }
+
+        .signup-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 24px;
+            padding: 3.5rem;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff88, transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .welcome-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            color: #00ff88;
+        }
+
+        .signup-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #ffffff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .signup-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        /* Form Styles */
+        .signup-form {
+            margin-bottom: 2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            color: #00ff88;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #00ff88;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-input.error {
+            border-color: #ff6b6b;
+        }
+
+        .form-input.success {
+            border-color: #00ff88;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            color: #00ff88;
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .password-toggle:hover {
+            color: #00ff88;
+        }
+
+        /* Password Strength Indicator */
+        .password-strength {
+            margin-top: 0.75rem;
+        }
+
+        .strength-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.5rem;
+        }
+
+        .strength-bars {
+            display: flex;
+            gap: 0.25rem;
+            height: 4px;
+        }
+
+        .strength-bar {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .strength-bar.weak {
+            background: #ff6b6b;
+        }
+
+        .strength-bar.medium {
+            background: #ffa500;
+        }
+
+        .strength-bar.strong {
+            background: #00ff88;
+        }
+
+        /* Learning Preferences */
+        .learning-preferences {
+            margin-bottom: 1.5rem;
+        }
+
+        .preferences-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        .preference-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.75rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .preference-btn.active {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .preference-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .preference-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Terms and Conditions */
+        .terms-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(0, 255, 136, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+        }
+
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            appearance: none;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+            margin-top: 0.1rem;
+        }
+
+        .checkbox:checked {
+            background: #00ff88;
+            border-color: #00ff88;
+        }
+
+        .checkbox:checked::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #0a0f0a;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .terms-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .terms-text a {
+            color: #00ff88;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .terms-text a:hover {
+            text-decoration: underline;
+        }
+
+        /* Buttons */
+        .signup-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0f0a;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signup-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .signup-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 255, 136, 0.4);
+        }
+
+        .signup-btn:hover::before {
+            left: 100%;
+        }
+
+        .signup-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .signup-btn.loading {
+            pointer-events: none;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(10, 15, 10, 0.3);
+            border-radius: 50%;
+            border-top-color: #0a0f0a;
+            animation: spin 1s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        .signup-btn.loading .loading-spinner {
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Divider */
+        .divider {
+            position: relative;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .divider-text {
+            background: rgba(10, 15, 10, 0.9);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 0 1rem;
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        /* Social Signup */
+        .social-signup {
+            margin-bottom: 2rem;
+        }
+
+        .social-btn {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            text-decoration: none;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #00ff88;
+            transform: translateY(-2px);
+        }
+
+        .social-btn:last-child {
+            margin-bottom: 0;
+        }
+
+        .social-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        .signup-footer {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .login-link-footer {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        .login-link-footer a {
+            color: #00ff88;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .login-link-footer a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        /* Success Animation */
+        .success-checkmark {
+            display: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #00ff88;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        .success-checkmark::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #0a0f0a;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .success-message-main {
+            display: none;
+            text-align: center;
+            color: #00ff88;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-actions {
+                gap: 0.5rem;
+            }
+
+            .signup-container {
+                margin: 1rem;
+                margin-top: 30px;
+                max-width: 100%;
+            }
+
+            .signup-card {
+                padding: 2.5rem;
+            }
+
+            .signup-title {
+                font-size: 2rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .preferences-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .terms-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 580px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background -->
+    <div class="background"></div>
+    <div class="floating-particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="logo">Hyper Tutor</a>
+            <div class="nav-actions">
+                <a href="log_in.html" class="login-link">Already have an account?</a>
+                <a href="landing_page.html" class="back-btn">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Signup Container -->
+    <div class="signup-container">
+        <div class="signup-card">
+            <div class="signup-header">
+                <div class="welcome-badge">
+                    <span><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M461.8 53.6c-.4-1.7-1.6-3-3.3-3.4-54.4-13.3-180.1 34.1-248.2 102.2-13.3 13.3-24.2 26.4-33.1 39.1-21-1.9-42-.3-59.9 7.5-50.5 22.2-65.2 80.2-69.3 105.1-1 5.9 3.9 11 9.8 10.4l81.1-8.9c.1 7.8.6 14 1.1 18.3.4 4.2 2.3 8.1 5.3 11.1l31.4 31.4c3 3 6.9 4.9 11.1 5.3 4.3.5 10.5 1 18.2 1.1l-8.9 81c-.6 5.9 4.5 10.8 10.4 9.8 24.9-4 83-18.7 105.1-69.2 7.8-17.9 9.4-38.8 7.6-59.7 12.7-8.9 25.9-19.8 39.2-33.1 68.4-68 115.5-190.9 102.4-248zM298.6 213.5c-16.7-16.7-16.7-43.7 0-60.4 16.7-16.7 43.7-16.7 60.4 0 16.7 16.7 16.7 43.7 0 60.4-16.7 16.7-43.7 16.7-60.4 0z"></path><path d="M174.5 380.5c-4.2 4.2-11.7 6.6-19.8 8-18.2 3.1-34.1-12.8-31-31 1.4-8.1 3.7-15.6 7.9-19.7l.1-.1c2.3-2.3.4-6.1-2.8-5.7-9.8 1.2-19.4 5.6-26.9 13.1-18 18-19.7 84.8-19.7 84.8s66.9-1.7 84.9-19.7c7.6-7.6 11.9-17.1 13.1-26.9.3-3.2-3.6-5.1-5.8-2.8z"></path></svg></span>
+                    <span>Start your learning journey</span>
+                </div>
+                <h1 class="signup-title">Create Account</h1>
+                <p class="signup-subtitle">Join thousands of learners accelerating their growth with AI-powered tutoring</p>
+            </div>
+
+            <!-- Success Elements (Hidden by default) -->
+            <div class="success-checkmark" id="successCheckmark"></div>
+            <div class="success-message-main" id="successMessage">Account created successfully! Welcome to Hyper Tutor!</div>
+
+            <!-- Signup Form -->
+            <form class="signup-form" id="signupForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label" for="firstName">First Name</label>
+                        <input 
+                            type="text" 
+                            id="firstName" 
+                            class="form-input" 
+                            placeholder="Enter your first name"
+                            required
+                        >
+                        <div class="error-message" id="firstNameError">First name is required</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="lastName">Last Name</label>
+                        <input 
+                            type="text" 
+                            id="lastName" 
+                            class="form-input" 
+                            placeholder="Enter your last name"
+                            required
+                        >
+                        <div class="error-message" id="lastNameError">Last name is required</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        class="form-input" 
+                        placeholder="Enter your email address"
+                        required
+                    >
+                    <div class="error-message" id="emailError">Please enter a valid email address</div>
+                    <div class="success-message" id="emailSuccess">Email looks good!</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Password</label>
+                    <div class="password-container">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            class="form-input" 
+                            placeholder="Create a strong password"
+                            required
+                        >
+                        <button type="button" class="password-toggle" id="passwordToggle">
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 0 0 0 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z"></path></svg>
+                        </button>
+                    </div>
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="strength-label">Password strength: <span id="strengthText">Enter password</span></div>
+                        <div class="strength-bars">
+                            <div class="strength-bar" id="bar1"></div>
+                            <div class="strength-bar" id="bar2"></div>
+                            <div class="strength-bar" id="bar3"></div>
+                            <div class="strength-bar" id="bar4"></div>
+                        </div>
+                    </div>
+                    <div class="error-message" id="passwordError">Password must be at least 8 characters with uppercase, lowercase, and number</div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="confirmPassword">Confirm Password</label>
+                    <div class="password-container">
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            class="form-input" 
+                            placeholder="Confirm your password"
+                            required
+                        >
+                        <button type="button" class="password-toggle" id="confirmPasswordToggle">
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M942.2 486.2C847.4 286.5 704.1 186 512 186c-192.2 0-335.4 100.5-430.2 300.3a60.3 60.3 0 0 0 0 51.5C176.6 737.5 319.9 838 512 838c192.2 0 335.4-100.5 430.2-300.3 7.7-16.2 7.7-35 0-51.5zM512 766c-161.3 0-279.4-81.8-362.7-254C232.6 339.8 350.7 258 512 258c161.3 0 279.4 81.8 362.7 254C791.5 684.2 673.4 766 512 766zm-4-430c-97.2 0-176 78.8-176 176s78.8 176 176 176 176-78.8 176-176-78.8-176-176-176zm0 288c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z"></path></svg>
+                        </button>
+                    </div>
+                    <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+                    <div class="success-message" id="confirmPasswordSuccess">Passwords match!</div>
+                </div>
+
+                <div class="learning-preferences">
+                    <label class="form-label">What would you like to learn? (Optional)</label>
+                    <div class="preferences-grid" id="preferencesGrid">
+                        <button type="button" class="preference-btn" data-subject="math">
+                            <span class="preference-icon"><svg stroke="currentColor" fill="none" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M14 7C14 8.10457 13.1046 9 12 9C10.8954 9 10 8.10457 10 7C10 5.89543 10.8954 5 12 5C13.1046 5 14 5.89543 14 7Z" fill="currentColor"></path><path d="M3 12C3 11.4477 3.44772 11 4 11H20C20.5523 11 21 11.4477 21 12C21 12.5523 20.5523 13 20 13H4C3.44772 13 3 12.5523 3 12Z" fill="currentColor"></path><path d="M12 19C13.1046 19 14 18.1046 14 17C14 15.8954 13.1046 15 12 15C10.8954 15 10 15.8954 10 17C10 18.1046 10.8954 19 12 19Z" fill="currentColor"></path></svg></span>
+                            <span>Math</span>
+                        </button>
+                        <button type="button" class="preference-btn" data-subject="programming">
+                            <span class="preference-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M880 112H144c-17.7 0-32 14.3-32 32v736c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V144c0-17.7-14.3-32-32-32zM513.1 518.1l-192 161c-5.2 4.4-13.1.7-13.1-6.1v-62.7c0-2.3 1.1-4.6 2.9-6.1L420.7 512l-109.8-92.2a7.63 7.63 0 0 1-2.9-6.1V351c0-6.8 7.9-10.5 13.1-6.1l192 160.9c3.9 3.2 3.9 9.1 0 12.3zM716 673c0 4.4-3.4 8-7.5 8h-185c-4.1 0-7.5-3.6-7.5-8v-48c0-4.4 3.4-8 7.5-8h185c4.1 0 7.5 3.6 7.5 8v48z"></path></svg></span>
+                            <span>Coding</span>
+                        </button>
+                        <button type="button" class="preference-btn" data-subject="science">
+                            <span class="preference-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256.977 22.395c-16.8 0-32.49 7.65-45.864 20.177-13.372 12.53-24.82 29.98-34.363 51.117-2 4.428-3.91 9.03-5.736 13.777-5.035-.793-9.986-1.442-14.83-1.926-5.77-.575-11.4-.932-16.87-1.06-16.42-.39-31.427 1.275-44.58 5.262-17.536 5.317-32.006 15.083-40.406 29.63-8.4 14.55-9.62 31.964-5.457 49.81 4.165 17.845 13.552 36.484 27.087 55.318 2.84 3.95 5.874 7.912 9.076 11.873-3.198 3.957-6.228 7.913-9.064 11.86-13.536 18.833-22.923 37.472-27.087 55.318-4.164 17.846-2.943 35.26 5.457 49.807 8.4 14.55 22.87 24.315 40.406 29.63 17.537 5.318 38.373 6.507 61.45 4.202 4.838-.484 9.78-1.13 14.808-1.922 1.83 4.755 3.743 9.366 5.746 13.802 9.543 21.14 20.99 38.587 34.363 51.116 13.373 12.528 29.065 20.18 45.864 20.18 16.798 0 32.49-7.652 45.863-20.18 13.372-12.53 24.82-29.977 34.363-51.116 2.003-4.436 3.916-9.045 5.746-13.8 5.022.79 9.96 1.437 14.794 1.92 23.078 2.304 43.915 1.115 61.45-4.202 17.538-5.316 32.008-15.082 40.408-29.63 8.4-14.55 9.62-31.962 5.457-49.807-4.165-17.845-13.553-36.484-27.087-55.318-2.837-3.946-5.867-7.902-9.065-11.86 3.202-3.96 6.237-7.92 9.076-11.872 13.535-18.834 22.922-37.473 27.086-55.318 4.164-17.846 2.943-35.26-5.457-49.81-8.4-14.547-22.87-24.313-40.406-29.63-13.152-3.987-28.16-5.652-44.578-5.263-5.474.128-11.105.485-16.874 1.06-4.84.484-9.787 1.133-14.817 1.925-1.828-4.746-3.738-9.347-5.737-13.776-9.543-21.14-20.99-38.59-34.363-51.118-13.373-12.528-29.065-20.177-45.863-20.177zm0 18.687c11.205 0 22.192 4.923 33.086 15.13 10.893 10.205 21.297 25.653 30.107 45.167 1.404 3.11 2.765 6.334 4.086 9.643-21.417 4.762-44.1 12.068-67.285 21.83-23.18-9.76-45.86-17.064-67.273-21.826 1.322-3.31 2.68-6.536 4.086-9.648 8.81-19.515 19.214-34.963 30.108-45.17 10.894-10.205 21.88-15.128 33.087-15.128zm-123.59 82.057c1.804-.018 3.637-.006 5.498.036 4.96.11 10.117.43 15.443.963 3.406.34 6.887.775 10.424 1.288-6.586 20.927-11.6 44.222-14.742 69.18-20.048 15.2-37.718 31.194-52.55 47.363-2.212-2.805-4.33-5.6-6.327-8.378-12.495-17.386-20.67-34.12-24.063-48.658-3.392-14.538-2.16-26.513 3.442-36.217 5.602-9.704 15.36-16.757 29.644-21.088 9.375-2.843 20.6-4.375 33.23-4.49zm247.168 0c12.63.115 23.855 1.647 33.23 4.49 14.286 4.33 24.04 11.383 29.643 21.087 5.602 9.704 6.835 21.68 3.443 36.217-3.39 14.537-11.57 31.272-24.063 48.658-1.997 2.778-4.113 5.573-6.325 8.38-14.83-16.167-32.495-32.157-52.537-47.355-3.14-24.962-8.16-48.26-14.746-69.19 3.533-.513 7.01-.95 10.413-1.288 5.326-.533 10.483-.853 15.444-.964 1.86-.042 3.693-.054 5.498-.037zm-49.92 5.64c4.97 15.438 9.085 32.472 12.156 50.7-9.716-6.567-19.876-12.932-30.446-19.035-10.565-6.1-21.15-11.713-31.69-16.843 17.32-6.455 34.127-11.407 49.98-14.82zm-147.317.003c15.85 3.414 32.655 8.366 49.97 14.82-10.54 5.13-21.125 10.743-31.69 16.842-10.566 6.1-20.72 12.462-30.434 19.024 3.07-18.223 7.184-35.253 12.154-50.687zm73.653 24.46c15.207 6.708 30.643 14.504 46.03 23.388 15.393 8.888 29.87 18.36 43.285 28.18 1.796 16.527 2.762 33.798 2.762 51.57 0 17.762-.963 35.026-2.758 51.546-13.415 9.818-27.89 19.288-43.278 28.174-15.39 8.885-30.83 16.684-46.04 23.392-15.212-6.708-30.652-14.507-46.042-23.392-15.385-8.883-29.854-18.35-43.264-28.164-1.795-16.523-2.76-33.79-2.76-51.557 0-17.775.965-35.048 2.762-51.577 13.413-9.817 27.885-19.288 43.273-28.172 15.388-8.883 30.824-16.68 46.03-23.386zm1.264 28.116l-53.502 33.017 53.502 33.02 53.502-33.02-53.502-33.018zm-110.76 39.134c-.827 11.698-1.257 23.68-1.257 35.885 0 12.198.43 24.172 1.258 35.864-14.25-11.77-26.943-23.85-37.827-35.873 10.884-12.022 23.577-24.104 37.827-35.876zm219.005.01c14.243 11.77 26.933 23.847 37.813 35.867-10.88 12.02-23.57 24.097-37.813 35.864.826-11.688 1.256-23.66 1.256-35.855 0-12.204-.43-24.18-1.257-35.876zm-173.8 8.394v65.198l56.19 34.677v-65.195l-56.19-34.68zm131.058.034l-56.177 34.67v65.164l56.178-34.67v-65.164zm-226.28 41.84c14.834 16.17 32.502 32.16 52.548 47.36 3.14 24.955 8.156 48.248 14.74 69.175-3.53.51-7.006.947-10.406 1.287-21.304 2.127-39.887.84-54.172-3.49-14.286-4.33-24.04-11.386-29.643-21.09-5.602-9.705-6.835-21.68-3.443-36.217 3.392-14.537 11.568-31.272 24.063-48.658 1.993-2.775 4.107-5.566 6.314-8.367zm319.024.003c2.207 2.8 4.32 5.59 6.313 8.364 12.494 17.385 20.67 34.12 24.062 48.657 3.392 14.537 2.162 26.512-3.44 36.217-5.604 9.704-15.36 16.76-29.646 21.09-14.284 4.33-32.864 5.617-54.168 3.49-3.397-.34-6.868-.775-10.395-1.285 6.585-20.932 11.6-44.23 14.74-69.19 20.04-15.196 37.706-31.182 52.535-47.345zm-73.687 62.483c-3.07 18.226-7.184 35.26-12.154 50.697-15.854-3.413-32.663-8.368-49.984-14.822 10.542-5.132 21.13-10.746 31.7-16.848 10.567-6.1 20.724-12.464 30.44-19.027zm-171.635.01c9.71 6.56 19.862 12.92 30.424 19.017 10.57 6.102 21.16 11.716 31.7 16.848-17.316 6.453-34.12 11.407-49.973 14.82-4.97-15.434-9.08-32.464-12.15-50.685zm86.37.85l.68.42.677-.42h-1.356zm-.56 45.767c23.19 9.76 45.874 17.065 67.294 21.826-1.324 3.32-2.686 6.55-4.094 9.67-8.81 19.513-19.214 34.96-30.108 45.167-10.893 10.206-21.88 15.13-33.085 15.13-11.206 0-22.193-4.924-33.086-15.13-10.893-10.206-21.297-25.654-30.107-45.168-1.408-3.12-2.77-6.352-4.095-9.67 21.416-4.762 44.098-12.066 67.283-21.825z"></path></svg></span>
+                            <span>Science</span>
+                        </button>
+                        <button type="button" class="preference-btn" data-subject="language">
+                            <span class="preference-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 640 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M152.1 236.2c-3.5-12.1-7.8-33.2-7.8-33.2h-.5s-4.3 21.1-7.8 33.2l-11.1 37.5H163zM616 96H336v320h280c13.3 0 24-10.7 24-24V120c0-13.3-10.7-24-24-24zm-24 120c0 6.6-5.4 12-12 12h-11.4c-6.9 23.6-21.7 47.4-42.7 69.9 8.4 6.4 17.1 12.5 26.1 18 5.5 3.4 7.3 10.5 4.1 16.2l-7.9 13.9c-3.4 5.9-10.9 7.8-16.7 4.3-12.6-7.8-24.5-16.1-35.4-24.9-10.9 8.7-22.7 17.1-35.4 24.9-5.8 3.5-13.3 1.6-16.7-4.3l-7.9-13.9c-3.2-5.6-1.4-12.8 4.2-16.2 9.3-5.7 18-11.7 26.1-18-7.9-8.4-14.9-17-21-25.7-4-5.7-2.2-13.6 3.7-17.1l6.5-3.9 7.3-4.3c5.4-3.2 12.4-1.7 16 3.4 5 7 10.8 14 17.4 20.9 13.5-14.2 23.8-28.9 30-43.2H412c-6.6 0-12-5.4-12-12v-16c0-6.6 5.4-12 12-12h64v-16c0-6.6 5.4-12 12-12h16c6.6 0 12 5.4 12 12v16h64c6.6 0 12 5.4 12 12zM0 120v272c0 13.3 10.7 24 24 24h280V96H24c-13.3 0-24 10.7-24 24zm58.9 216.1L116.4 167c1.7-4.9 6.2-8.1 11.4-8.1h32.5c5.1 0 9.7 3.3 11.4 8.1l57.5 169.1c2.6 7.8-3.1 15.9-11.4 15.9h-22.9a12 12 0 0 1-11.5-8.6l-9.4-31.9h-60.2l-9.1 31.8c-1.5 5.1-6.2 8.7-11.5 8.7H70.3c-8.2 0-14-8.1-11.4-15.9z"></path></svg></span>
+                            <span>Languages</span>
+                        </button>
+                        <button type="button" class="preference-btn" data-subject="writing">
+                            <span class="preference-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><g><path fill="none" d="M0 0h24v24H0z"></path><path d="M21 2C6 2 4 16 3 22h1.998c.666-3.333 2.333-5.166 5.002-5.5 4-.5 7-4 8-7l-1.5-1 1-1c1-1 2.004-2.5 3.5-5.5z"></path></g></svg></span>
+                            <span>Writing</span>
+                        </button>
+                        <button type="button" class="preference-btn" data-subject="design">
+                            <span class="preference-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M204.3 5C104.9 24.4 24.8 104.3 5.2 203.4c-37 187 131.7 326.4 258.8 306.7 41.2-6.4 61.4-54.6 42.5-91.7-23.1-45.4 9.9-98.4 60.9-98.4h79.7c35.8 0 64.8-29.6 64.9-65.3C511.5 97.1 368.1-26.9 204.3 5zM96 320c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm32-128c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128-64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm128 64c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32z"></path></svg></span>
+                            <span>Design</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="terms-container">
+                    <input type="checkbox" id="terms" class="checkbox" required>
+                    <div class="terms-text">
+                        I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>. 
+                        I understand that I can unsubscribe from marketing communications at any time.
+                    </div>
+                </div>
+
+                <button type="submit" class="signup-btn" id="signupBtn">
+                    <div class="loading-spinner"></div>
+                    <span>Create My Account</span>
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="divider">
+                <span class="divider-text">or sign up with</span>
+            </div>
+
+            <!-- Social Signup -->
+            <div class="social-signup">
+                <a href="#" class="social-btn" id="googleSignup">
+                    <span class="social-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" version="1.1" x="0px" y="0px" viewBox="0 0 48 48" enable-background="new 0 0 48 48" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12
+	c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24
+	c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"></path><path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657
+	C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"></path><path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36
+	c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"></path><path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571
+	c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"></path></svg></span>
+                    <span>Continue with Google</span>
+                </a>
+                <a href="#" class="social-btn" id="githubSignup">
+                    <span class="social-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 496 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"></path></svg></span>
+                    <span>Continue with GitHub</span>
+                </a>
+            </div>
+
+            <!-- Footer -->
+            <div class="signup-footer">
+                <p class="login-link-footer">
+                    Already have an account? <a href="log_in.html">Log in here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Password toggle functionality
+        function setupPasswordToggle(toggleId, inputId) {
+            const toggle = document.getElementById(toggleId);
+            const input = document.getElementById(inputId);
+
+            toggle.addEventListener('click', function() {
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                this.textContent = type === 'password' ? '👁️' : '🙈';
+            });
+        }
+
+        setupPasswordToggle('passwordToggle', 'password');
+        setupPasswordToggle('confirmPasswordToggle', 'confirmPassword');
+
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            let feedback = 'Enter password';
+
+            if (password.length >= 8) strength++;
+            if (password.match(/[a-z]/)) strength++;
+            if (password.match(/[A-Z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^a-zA-Z0-9]/)) strength++;
+
+            const strengthText = document.getElementById('strengthText');
+            const bars = [
+                document.getElementById('bar1'),
+                document.getElementById('bar2'),
+                document.getElementById('bar3'),
+                document.getElementById('bar4')
+            ];
+
+            // Reset bars
+            bars.forEach(bar => {
+                bar.className = 'strength-bar';
+            });
+
+            if (password.length === 0) {
+                feedback = 'Enter password';
+            } else if (strength <= 2) {
+                feedback = 'Weak';
+                bars[0].classList.add('weak');
+            } else if (strength <= 3) {
+                feedback = 'Medium';
+                bars[0].classList.add('medium');
+                bars[1].classList.add('medium');
+            } else {
+                feedback = 'Strong';
+                bars.forEach(bar => bar.classList.add('strong'));
+            }
+
+            strengthText.textContent = feedback;
+            return strength >= 3;
+        }
+
+        // Validation functions
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validatePassword(password) {
+            return password.length >= 8 && 
+                   password.match(/[a-z]/) && 
+                   password.match(/[A-Z]/) && 
+                   password.match(/[0-9]/);
+        }
+
+        function validateName(name) {
+            return name.trim().length >= 2;
+        }
+
+        function showError(inputId, errorId, show = true) {
+            const input = document.getElementById(inputId);
+            const error = document.getElementById(errorId);
+            
+            if (show) {
+                input.classList.add('error');
+                input.classList.remove('success');
+                error.classList.add('show');
+            } else {
+                input.classList.remove('error');
+                error.classList.remove('show');
+            }
+        }
+
+        function showSuccess(inputId, successId, show = true) {
+            const input = document.getElementById(inputId);
+            const success = document.getElementById(successId);
+            
+            if (show && success) {
+                input.classList.add('success');
+                input.classList.remove('error');
+                success.classList.add('show');
+            } else if (success) {
+                success.classList.remove('show');
+            }
+        }
+
+        // Learning preferences
+        document.querySelectorAll('.preference-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+
+        // Real-time validation
+        document.getElementById('firstName').addEventListener('blur', function() {
+            if (this.value && !validateName(this.value)) {
+                showError('firstName', 'firstNameError', true);
+            } else if (this.value) {
+                showError('firstName', 'firstNameError', false);
+            }
+        });
+
+        document.getElementById('lastName').addEventListener('blur', function() {
+            if (this.value && !validateName(this.value)) {
+                showError('lastName', 'lastNameError', true);
+            } else if (this.value) {
+                showError('lastName', 'lastNameError', false);
+            }
+        });
+
+        document.getElementById('email').addEventListener('blur', function() {
+            if (this.value && !validateEmail(this.value)) {
+                showError('email', 'emailError', true);
+            } else if (this.value && validateEmail(this.value)) {
+                showError('email', 'emailError', false);
+                showSuccess('email', 'emailSuccess', true);
+            }
+        });
+
+        document.getElementById('password').addEventListener('input', function() {
+            checkPasswordStrength(this.value);
+            
+            if (this.value && !validatePassword(this.value)) {
+                showError('password', 'passwordError', true);
+            } else if (this.value) {
+                showError('password', 'passwordError', false);
+            }
+
+            // Check confirm password if it has value
+            const confirmPassword = document.getElementById('confirmPassword');
+            if (confirmPassword.value) {
+                if (confirmPassword.value === this.value) {
+                    showError('confirmPassword', 'confirmPasswordError', false);
+                    showSuccess('confirmPassword', 'confirmPasswordSuccess', true);
+                } else {
+                    showError('confirmPassword', 'confirmPasswordError', true);
+                    showSuccess('confirmPassword', 'confirmPasswordSuccess', false);
+                }
+            }
+        });
+
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            
+            if (this.value && this.value !== password) {
+                showError('confirmPassword', 'confirmPasswordError', true);
+                showSuccess('confirmPassword', 'confirmPasswordSuccess', false);
+            } else if (this.value && this.value === password) {
+                showError('confirmPassword', 'confirmPasswordError', false);
+                showSuccess('confirmPassword', 'confirmPasswordSuccess', true);
+            }
+        });
+
+        // Clear errors on input
+        ['firstName', 'lastName', 'email'].forEach(id => {
+            document.getElementById(id).addEventListener('input', function() {
+                if (this.classList.contains('error')) {
+                    showError(id, id + 'Error', false);
+                }
+            });
+        });
+
+        // Form submission
+        const signupForm = document.getElementById('signupForm');
+        const signupBtn = document.getElementById('signupBtn');
+        const successCheckmark = document.getElementById('successCheckmark');
+        const successMessage = document.getElementById('successMessage');
+
+        signupForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const terms = document.getElementById('terms').checked;
+            
+            // Reset previous errors
+            ['firstName', 'lastName', 'email', 'password', 'confirmPassword'].forEach(id => {
+                showError(id, id + 'Error', false);
+            });
+            
+            let isValid = true;
+            
+            // Validate all fields
+            if (!validateName(firstName)) {
+                showError('firstName', 'firstNameError', true);
+                isValid = false;
+            }
+            
+            if (!validateName(lastName)) {
+                showError('lastName', 'lastNameError', true);
+                isValid = false;
+            }
+            
+            if (!validateEmail(email)) {
+                showError('email', 'emailError', true);
+                isValid = false;
+            }
+            
+            if (!validatePassword(password)) {
+                showError('password', 'passwordError', true);
+                isValid = false;
+            }
+            
+            if (password !== confirmPassword) {
+                showError('confirmPassword', 'confirmPasswordError', true);
+                isValid = false;
+            }
+            
+            if (!terms) {
+                alert('Please accept the Terms of Service and Privacy Policy to continue.');
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Show loading state
+            signupBtn.classList.add('loading');
+            signupBtn.disabled = true;
+            
+            // Get selected preferences
+            const preferences = Array.from(document.querySelectorAll('.preference-btn.active'))
+                .map(btn => btn.dataset.subject);
+            
+            // Simulate API call
+            try {
+                await new Promise(resolve => setTimeout(resolve, 2500));
+                
+                // Hide form and show success
+                signupForm.style.display = 'none';
+                successCheckmark.style.display = 'block';
+                successMessage.style.display = 'block';
+                
+                // Simulate redirect after success
+                setTimeout(() => {
+                    alert(`Welcome ${firstName}! Account created successfully!\nSelected preferences: ${preferences.join(', ') || 'None'}\nYou would be redirected to the onboarding flow.`);
+                    
+                    // Reset for demo purposes
+                    signupForm.style.display = 'block';
+                    successCheckmark.style.display = 'none';
+                    successMessage.style.display = 'none';
+                    signupBtn.classList.remove('loading');
+                    signupBtn.disabled = false;
+                    signupForm.reset();
+                    
+                    // Reset preferences
+                    document.querySelectorAll('.preference-btn.active').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Reset password strength
+                    document.getElementById('strengthText').textContent = 'Enter password';
+                    document.querySelectorAll('.strength-bar').forEach(bar => {
+                        bar.className = 'strength-bar';
+                    });
+                }, 3000);
+                
+            } catch (error) {
+                console.error('Signup error:', error);
+                signupBtn.classList.remove('loading');
+                signupBtn.disabled = false;
+                alert('Signup failed. Please try again.');
+            }
+        });
+
+        // Social signup handlers
+        document.getElementById('googleSignup').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('Google signup would be implemented here');
+        });
+
+        document.getElementById('githubSignup').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('GitHub signup would be implemented here');
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            // Focus first input
+            document.getElementById('firstName').focus();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,2146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/logo/logo.png" sizes="20x20">
+    <title>Hyper Tutor - AI-Powered Learning Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Lexend", sans-serif;
+            font-optical-sizing: auto;
+            background: #0a0f0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0f0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00ff88, #00cc6a);
+            border-radius: 4px;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 15, 10, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #00ff88;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00ff88;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0f0a;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        .login-btn {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 204, 106, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 40%, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+            overflow: hidden;
+        }
+
+        .hero-bg-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .hero-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #00ff88;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float-particle 8s linear infinite;
+        }
+
+        @keyframes float-particle {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.6;
+            }
+            90% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100px) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #00ff88;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-top: 80px;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #ffffff, #00ff88, #ffffff);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+            animation: fadeInUp 1s ease 0.4s both, gradient-shift 4s ease-in-out infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.6rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            align-items: start;
+            
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+
+        .hero-subtitle img{
+            height: 180px;
+            scale: 1.9;
+            margin-top: -50px;
+        }
+
+        @media(max-width: 1238px){
+            .hero-subtitle{
+                display: block;
+                align-items: center;
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 700px;
+
+            }
+            .hero-subtitle img{
+                display: none;
+            }
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+            animation: fadeInUp 1s ease 0.8s both;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0f0a;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 1.2rem 2.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary::after {
+            content: '▶';
+            font-size: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #00ff88;
+        }
+
+        .btn-secondary:hover::after {
+            transform: translateX(3px);
+        }
+
+        .hero-demo {
+            margin-top: 4rem;
+            margin-bottom: 70px;
+            animation: fadeInUp 1s ease 1s both;
+        }
+
+        .demo-preview {
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .demo-header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .demo-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .demo-dot.red { background: #ff5f5f; }
+        .demo-dot.yellow { background: #ffcd00; }
+        .demo-dot.green { background: #00ff88; }
+
+        .demo-content {
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), rgba(0, 204, 106, 0.05));
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 10rem 2rem;
+            background: 
+                linear-gradient(180deg, transparent, rgba(0, 255, 136, 0.03), transparent),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23ffffff" stroke-width="0.1" opacity="0.1"/></pattern></defs><rect width="100" height="20" fill="url(%23grid)"/></svg>');
+            position: relative;
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2.5rem;
+            margin-top: 6rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .feature-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ff88, transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            transition: all 0.6s ease;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ff88;
+            box-shadow: 0 25px 80px rgba(0, 255, 136, 0.25);
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            display: block;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-link {
+            color: #00ff88;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .feature-link::after {
+            content: '→';
+            transition: transform 0.3s ease;
+        }
+
+        .feature-link:hover::after {
+            transform: translateX(5px);
+        }
+
+        /* Product Showcase */
+        .product-showcase {
+            padding: 10rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), rgba(0, 204, 106, 0.03));
+        }
+
+        .showcase-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .showcase-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+            margin-bottom: 8rem;
+        }
+
+        .showcase-content:nth-child(even) {
+            direction: rtl;
+        }
+
+        .showcase-content:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .showcase-text h3 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .showcase-text p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .showcase-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .showcase-features li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .showcase-features li::before {
+            content: '✓';
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .showcase-image {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .showcase-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0, 255, 136, 0.1), transparent, rgba(0, 204, 106, 0.1));
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 10rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .testimonials-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 6rem;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ff88;
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+        }
+
+        .testimonial-text {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0a0f0a;
+        }
+
+        .author-info h4 {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-info p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .stars {
+            color: #00ff88;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 10rem 2rem;
+            background: 
+                linear-gradient(180deg, transparent, rgba(0, 255, 136, 0.03), transparent),
+                radial-gradient(ellipse at center, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+        }
+
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 6rem;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            backdrop-filter: blur(15px);
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .pricing-card.featured {
+            border-color: #00ff88;
+            box-shadow: 0 20px 80px rgba(0, 255, 136, 0.3);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0f0a;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ff88;
+            box-shadow: 0 25px 80px rgba(0, 255, 136, 0.25);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #00ff88;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price span {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .plan-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2.5rem;
+        }
+
+        .plan-features li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .plan-features li::before {
+            content: '✓';
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .plan-cta {
+            width: 100%;
+            padding: 1rem 2rem;
+            border: 2px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .plan-cta:hover {
+            background: #00ff88;
+            color: #0a0f0a;
+            border-color: #00ff88;
+        }
+
+        .pricing-card.featured .plan-cta {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0f0a;
+            border-color: #00ff88;
+        }
+
+        .pricing-card.featured .plan-cta:hover {
+            background: linear-gradient(135deg, #00cc6a, #00aa55);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 8rem 2rem;
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .stat-item {
+            padding: 2rem;
+            position: relative;
+        }
+
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            border-radius: 2px;
+        }
+
+        .stat-number {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #00ff88;
+            display: block;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+        }
+
+        .stat-description {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 0.5rem;
+        }
+
+        /* FAQ Section */
+        .faq {
+            padding: 10rem 2rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-list {
+            margin-top: 4rem;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: #00ff88;
+        }
+
+        .faq-question {
+            padding: 1.5rem 2rem;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            color: #00ff88;
+        }
+
+        .faq-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-answer {
+            padding: 0 2rem 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 10rem 2rem;
+            background: 
+                linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 106, 0.1)),
+                radial-gradient(ellipse at center, rgba(0, 255, 136, 0.2) 0%, transparent 70%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-bg-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .cta-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #00ff88;
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: float-cta 10s linear infinite;
+        }
+
+        @keyframes float-cta {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100px) translateX(200px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .cta-container {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 2rem;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .cta-description {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .cta-guarantee {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .cta-guarantee::before {
+            content: '🔒';
+        }
+
+        /* Footer */
+        .footer {
+            padding: 6rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #00ff88;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-logo::before {
+            content: "⚡";
+            font-size: 1.5rem;
+        }
+
+        .footer-description {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: #00ff88;
+            color: #0a0f0a;
+            transform: translateY(-2px);
+        }
+
+        .footer-column h4 {
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #00ff88;
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-copyright {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+
+        .footer-legal {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-legal a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-legal a:hover {
+            color: #00ff88;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 15, 10, 0.98);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+            z-index: 999;
+            transition: top 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            top: 80px;
+        }
+
+        .mobile-menu-content {
+            padding: 2rem;
+        }
+
+        .mobile-menu-links {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .mobile-menu-links li {
+            margin-bottom: 1rem;
+        }
+
+        .mobile-menu-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            display: block;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu-links a:hover {
+            color: #00ff88;
+        }
+
+        .mobile-menu-cta {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .showcase-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .showcase-content:nth-child(even) {
+                direction: ltr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .pricing-card.featured:hover {
+                transform: translateY(-10px);
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Scroll animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="logo"><img src="images/logo/logo.png" alt="" width="50px">Hyper Tutor</a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#product">Product</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#testimonials">Reviews</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#community">Community</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="log_in.html" class="login-btn">Log In</a>
+                <a href="sign_up.html" class="cta-btn">Get Started</a>
+            </div>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+        <div class="mobile-menu">
+            <div class="mobile-menu-content">
+                <ul class="mobile-menu-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#product">Product</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#testimonials">Reviews</a></li>
+                    <li><a href="#resources">Resources</a></li>
+                    <li><a href="#community">Community</a></li>
+                </ul>
+                <div class="mobile-menu-cta">
+                    <a href="log_in.html" class="login-btn">Log In</a>
+                    <a href="sign_up.html" class="cta-btn">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg-elements" id="hero-particles"></div>
+        <div class="hero-container">
+            <div class="hero-badge">
+                <span><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M12.17 3.83c-.27-.27-.47-.55-.63-.88-.16-.31-.27-.66-.34-1.02-.58.33-1.16.7-1.73 1.13-.58.44-1.14.94-1.69 1.48-.7.7-1.33 1.81-1.78 2.45H3L0 10h3l2-2c-.34.77-1.02 2.98-1 3l1 1c.02.02 2.23-.64 3-1l-2 2v3l3-3v-3c.64-.45 1.75-1.09 2.45-1.78.55-.55 1.05-1.13 1.47-1.7.44-.58.81-1.16 1.14-1.72-.36-.08-.7-.19-1.03-.34a3.39 3.39 0 0 1-.86-.63zM16 0s-.09.38-.3 1.06c-.2.7-.55 1.58-1.06 2.66-.7-.08-1.27-.33-1.66-.72-.39-.39-.63-.94-.7-1.64C13.36.84 14.23.48 14.92.28 15.62.08 16 0 16 0z"></path></svg></span>
+                <span>Join 50,000+ learners worldwide</span>
+            </div>
+            <h1>Transform Your Learning Journey with AI</h1>
+            <p class="hero-subtitle" style="display: flex;width: 75%;">
+                <img src="images/lumo.png" alt="lumo mascot">
+                Experience the future of education with personalized AI tutoring, comprehensive progress tracking, 
+                and a complete learning ecosystem designed to accelerate your growth across any subject.
+            </p>
+            <div class="hero-buttons">
+                <a href="#" class="btn-primary">Start Learning Free</a>
+                <a href="#" class="btn-secondary">Watch Demo</a>
+            </div>
+            <div class="hero-demo">
+                <div class="demo-preview">
+                    <div class="demo-header">
+                        <div class="demo-dot red"></div>
+                        <div class="demo-dot yellow"></div>
+                        <div class="demo-dot green"></div>
+                    </div>
+                    <div class="demo-content">
+                        <p>Interactive AI Tutor Demo Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="features-container">
+            <div class="section-header scroll-animate">
+                <div class="section-badge">Features</div>
+                <h2 class="section-title">Everything You Need to Excel</h2>
+                <p class="section-subtitle">
+                    A comprehensive learning ecosystem with AI-powered tutoring, progress tracking, 
+                    productivity tools, and personalized study experiences.
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256.016 17.824C153.28 17.824 68 123.394 68 255.984c0 55.725 15.08 106.68 40.17 147.034 42.033 17.992 95.622 27.594 149.34 27.644 51.828.046 103.59-8.786 145.04-25.588C428.41 364.4 444 312.66 444 255.982c0-132.59-85.25-238.156-187.982-238.158h-.002zm1.746 18.7c80.525 0 145.63 65.072 145.63 145.6 0 80.526-65.105 145.63-145.63 145.63-80.53 0-145.6-65.104-145.6-145.63 0-80.53 65.07-145.6 145.6-145.6zm-27.69 40.02c-2.586 5.774-5.09 11.292-7.52 16.843-.543 1.243-1.193 1.538-2.622 1.636-5.436.377-10.875.927-16.25 1.8-1.77.29-2.69.21-3.723-1.294-3.335-4.866-6.823-9.626-10.352-14.565L167.268 97.3c3.778 5.304 7.298 10.362 10.962 15.315.976 1.318.846 2.18.102 3.567-1.747 3.258-3.268 6.647-4.7 10.058-.835 1.984-.724 4.898-2.126 5.967-1.56 1.19-4.355.774-6.615 1.035-4.747.548-9.5 1.08-14.443 1.64l2.727 27.526c6.937-.78 13.47-1.57 20.017-2.195 1.164-.11 2.92.056 3.503.8 3.262 4.16 6.248 8.535 9.602 13.22l-9.477 21.26 25.057 11.216c3.057-6.812 6.036-13.325 8.89-19.894.658-1.518 1.386-2.035 3.143-2.064 4.032-.066 8.11-.283 12.063-1.02 2.293-.426 3.46-.018 4.757 1.844 3.998 5.74 8.2 11.337 12.386 17.076l16.084-11.722 5.537 9.588-19.986 20.01-24.428-14.034-13.035 23.715c8.287 4.824 16.284 9.48 23.567 13.722-2.152 9.085-4.15 17.682-6.29 26.244-.156.616-1.35 1.37-2.072 1.383-6.587.105-13.18.063-19.77.063h-6.585v26.434c.67.318 1.345.628 2.02.935h26.087c.75 3.174 1.477 6.206 2.182 9.203C235.314 310.028 244.536 311 254 311c15.906 0 31.138-2.728 45.236-7.723-8.264-13.37-6.265-30.49 3.118-41.173 13.284-15.13 36.56-16.175 50.794-2.032 1.167 1.16 2.232 2.366 3.21 3.61C374.897 241.53 386 213.237 386 182.412c0-6.172-.454-12.24-1.314-18.18-.236-.12-.427-.22-.686-.35-.132-.068-.31-.047-.664-.09-4.587 7.96-9.21 15.986-13.56 23.54l-27.532-7.566v-27.21h-27.32v27.24c-9.023 2.44-17.696 4.787-26.645 7.206-4.342-7.55-8.898-15.472-13.47-23.426l-18.232 10.235c-1.31-1.825-2.425-3.512-3.685-5.087-.825-1.03-.648-1.725-.028-2.86 2.178-3.98 4.357-7.992 6.06-12.185.805-1.988 1.693-2.632 3.73-2.81 6.453-.557 12.885-1.36 19.616-2.102-.92-9.32-1.82-18.397-2.72-27.522-6.795.652-13.1 1.22-19.396 1.89-1.49.157-2.1-.388-2.888-1.66-2.787-4.495-5.686-8.944-8.89-13.144-1.16-1.518-1.426-2.46-.63-4.148 2.537-5.387 4.9-10.854 7.393-16.438-8.45-3.774-16.663-7.445-25.068-11.2zm-13.455 42.845c12.335.102 22.195 10.073 22.092 22.337-.105 12.433-10.133 22.24-22.595 22.093-12.426-.145-22.047-10.12-21.908-22.72.134-12.086 10.174-21.814 22.41-21.71zm-45.183 214.63c18.315 0 33.066 14.8 33.066 33.41 0 18.608-14.75 33.437-33.064 33.437-18.315 0-33.036-14.83-33.036-33.437 0-18.61 14.72-33.41 33.034-33.41zm165.334.732a33 33 0 0 1 33 33 33 33 0 0 1-33 33 33 33 0 0 1-33-33 33 33 0 0 1 33-33zm-208.372 96.002v.006c.003 0 .005 0 .008.002l-.008-.008zm.008.008c11.484 13.443 24.29 25.074 38.108 34.586l-7.076-26.303c-10.648-2.343-21.013-5.113-31.032-8.283zm253.89 1.52c-8.87 2.67-17.994 5.016-27.33 7.046l-6.42 23.903c12.14-8.723 23.46-19.12 33.75-30.943v-.004zM179.82 443V443l9.565 35.686c11.31 5.452 23.12 9.55 35.31 12.156l-5.048-43.006c-13.472-1.002-26.797-2.645-39.828-4.838zm154.793.252c-10.124 1.667-20.447 2.983-30.85 3.96l-4.802 40.702c9.11-2.72 17.96-6.292 26.522-10.63l9.133-34.028v-.002l-.002-.002zm-49.77 5.297l-.005.03h.006l-.002-.03zm-.005.03c-9.08.502-18.206.753-27.324.753-6.344-.005-12.686-.126-19.012-.377l5.297 44.72c4.04.377 8.112.503 12.216.503 8.003 0 15.89-.626 23.652-1.905l5.17-43.692z"></path></svg></span>
+                    <h3 class="feature-title">AI-Powered Tutoring</h3>
+                    <p class="feature-description">
+                        Get instant, personalized help across mathematics, programming, science, and more. 
+                        Our AI adapts to your learning style, identifies knowledge gaps, and provides 
+                        step-by-step explanations tailored to your level.
+                    </p>
+                    <a href="try_my_ai.html" class="feature-link">Explore AI Tutor</a>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M169 57v430h78V57h-78zM25 105v190h46V105H25zm158 23h18v320h-18V128zm128.725 7.69l-45.276 8.124 61.825 344.497 45.276-8.124-61.825-344.497zM89 153v270h62V153H89zm281.502 28.68l-27.594 11.773 5.494 12.877 27.594-11.773-5.494-12.877zm12.56 29.433l-27.597 11.772 5.494 12.877 27.593-11.772-5.492-12.877zm12.555 29.434l-27.594 11.77 99.674 233.628 27.594-11.773-99.673-233.625zM25 313v30h46v-30H25zm190 7h18v128h-18V320zM25 361v126h46V361H25zm64 80v46h62v-46H89z"></path></svg></span>
+                    <h3 class="feature-title">Smart Learning Journal</h3>
+                    <p class="feature-description">
+                        Track progress, reflect on challenges, and set meaningful goals. Our intelligent 
+                        journaling system analyzes your learning patterns and provides insights to 
+                        optimize your study habits.
+                    </p>
+                    <a href="journal_info.html" class="feature-link">View Journal Features</a>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg></span>
+                    <h3 class="feature-title">Advanced Focus Mode</h3>
+                    <p class="feature-description">
+                        Maximize productivity with customizable Pomodoro timers, ambient soundscapes, 
+                        distraction blocking, and break recommendations based on cognitive research.
+                    </p>
+                    <a href="#" class="feature-link">Try Focus Mode</a>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" version="1.1" viewBox="0 0 32 32" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M27.028 25.367c0 1.071-0.876 1.947-1.947 1.947h-18.163c-1.071 0-1.947-0.876-1.947-1.947v-18.163c0-1.071 0.876-1.947 1.947-1.947h18.163c1.071 0 1.947 0.876 1.947 1.947v18.163zM27.028 12.187l-1.992-1.342c0.040-0.172 0.064-0.351 0.064-0.536 0-1.294-1.049-2.344-2.344-2.344s-2.344 1.049-2.344 2.344c0 0.509 0.164 0.979 0.44 1.364l-4.307 6.586c-0.175-0.042-0.358-0.067-0.546-0.067-0.577 0-1.104 0.209-1.513 0.555l-2.883-1.659c0.015-0.106 0.025-0.213 0.025-0.323 0-1.294-1.049-2.344-2.344-2.344s-2.344 1.049-2.344 2.344c0 0.321 0.065 0.627 0.182 0.906l-2.153 1.997v2.125l3.198-2.967c0.332 0.18 0.712 0.282 1.116 0.282 0.62 0 1.182-0.242 1.601-0.636l2.813 1.619c-0.028 0.144-0.043 0.292-0.043 0.444 0 1.294 1.049 2.343 2.344 2.343s2.344-1.049 2.344-2.343c0-0.539-0.184-1.034-0.49-1.43l4.277-6.54c0.2 0.055 0.409 0.087 0.626 0.087 0.543 0 1.041-0.186 1.439-0.496l2.833 1.909v-1.878z"></path></svg></span>
+                    <h3 class="feature-title">Comprehensive Skill Tracking</h3>
+                    <p class="feature-description">
+                        Monitor mastery across programming languages, creative skills, languages, and 
+                        academic subjects. Visualize progress with detailed analytics and achievement systems.
+                    </p>
+                    <a href="#" class="feature-link">See Progress Dashboard</a>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M13 2c0-1.105-2.239-2-5-2S3 .895 3 2s2.239 2 5 2 5-.895 5-2z"></path><path d="M13 3.75c-.322.24-.698.435-1.093.593C10.857 4.763 9.475 5 8 5s-2.857-.237-3.907-.657A4.881 4.881 0 013 3.75V6c0 1.105 2.239 2 5 2s5-.895 5-2V3.75z"></path><path d="M13 7.75c-.322.24-.698.435-1.093.593C10.857 8.763 9.475 9 8 9s-2.857-.237-3.907-.657A4.881 4.881 0 013 7.75V10c0 1.105 2.239 2 5 2s5-.895 5-2V7.75z"></path><path d="M13 11.75c-.322.24-.698.435-1.093.593-1.05.42-2.432.657-3.907.657s-2.857-.237-3.907-.657A4.883 4.883 0 013 11.75V14c0 1.105 2.239 2 5 2s5-.895 5-2v-2.25z"></path></svg></span>
+                    <h3 class="feature-title">Curated Resource Hub</h3>
+                    <p class="feature-description">
+                        Access thousands of premium tutorials, articles, tools, and learning materials. 
+                        AI-powered recommendations ensure you find exactly what you need for your current goals.
+                    </p>
+                    <a href="#" class="feature-link">Browse Resources</a>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 16 16" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M6.354 5.5H4a3 3 0 000 6h3a3 3 0 002.83-4H9c-.086 0-.17.01-.25.031A2 2 0 017 10.5H4a2 2 0 110-4h1.535c.218-.376.495-.714.82-1z"></path><path d="M6.764 6.5H7c.364 0 .706.097 1 .268A1.99 1.99 0 019 6.5h.236A3.004 3.004 0 008 5.67a3 3 0 00-1.236.83z"></path><path d="M9 5.5a3 3 0 00-2.83 4h1.098A2 2 0 019 6.5h3a2 2 0 110 4h-1.535a4.02 4.02 0 01-.82 1H12a3 3 0 100-6H9z"></path><path d="M8 11.33a3.01 3.01 0 001.236-.83H9a1.99 1.99 0 01-1-.268 1.99 1.99 0 01-1 .268h-.236c.332.371.756.66 1.236.83z"></path></svg></span>
+                    <h3 class="feature-title">Seamless Integrations</h3>
+                    <p class="feature-description">
+                        Connect with Google Calendar, Notion, GitHub, and more. Sync your schedule, 
+                        import projects, and maintain workflow continuity across all your tools.
+                    </p>
+                    <a href="#" class="feature-link">View Integrations</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Showcase -->
+    <section class="product-showcase" id="product">
+        <div class="showcase-container">
+            <div class="section-header scroll-animate">
+                <div class="section-badge">Product Tour</div>
+                <h2 class="section-title">See Hyper Tutor in Action</h2>
+                <p class="section-subtitle">
+                    Discover how our platform transforms learning through innovative features 
+                    and intuitive design.
+                </p>
+            </div>
+
+            <div class="showcase-content scroll-animate">
+                <div class="showcase-text">
+                    <h3>Personalized AI Conversations</h3>
+                    <p>
+                        Experience natural, context-aware tutoring sessions that adapt to your learning pace. 
+                        Our AI remembers your progress, understands your struggles, and provides increasingly 
+                        sophisticated guidance as you advance.
+                    </p>
+                    <ul class="showcase-features">
+                        <li>Multi-turn conversations with context retention</li>
+                        <li>Step-by-step problem solving with explanations</li>
+                        <li>Visual learning aids and interactive examples</li>
+                        <li>Instant feedback and error correction</li>
+                    </ul>
+                    <a href="#" class="feature-link">Try AI Tutor Now</a>
+                </div>
+                <div class="showcase-image">
+                    <p>Interactive AI Chat Interface</p>
+                </div>
+            </div>
+
+            <div class="showcase-content scroll-animate">
+                <div class="showcase-text">
+                    <h3>Advanced Progress Analytics</h3>
+                    <p>
+                        Gain deep insights into your learning journey with comprehensive analytics. 
+                        Track skill development, identify improvement areas, and celebrate achievements 
+                        with detailed visualizations.
+                    </p>
+                    <ul class="showcase-features">
+                        <li>Skill mastery progression tracking</li>
+                        <li>Learning velocity and consistency metrics</li>
+                        <li>Personalized improvement recommendations</li>
+                        <li>Achievement unlocks and milestone celebration</li>
+                    </ul>
+                    <a href="#" class="feature-link">View Analytics Demo</a>
+                </div>
+                <div class="showcase-image">
+                    <p>Detailed Progress Dashboard</p>
+                </div>
+            </div>
+
+            <div class="showcase-content scroll-animate">
+                <div class="showcase-text">
+                    <h3>Productivity-First Design</h3>
+                    <p>
+                        Every feature is designed to minimize distractions and maximize learning efficiency. 
+                        From focus timers to distraction blocking, we help you maintain deep concentration 
+                        during study sessions.
+                    </p>
+                    <ul class="showcase-features">
+                        <li>Customizable focus sessions with break reminders</li>
+                        <li>Ambient soundscapes for concentration</li>
+                        <li>Task prioritization and time management</li>
+                        <li>Distraction-free learning environment</li>
+                    </ul>
+                    <a href="#" class="feature-link">Explore Productivity Tools</a>
+                </div>
+                <div class="showcase-image">
+                    <p>Focus Mode Interface</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="testimonials-container">
+            <div class="section-header scroll-animate">
+                <div class="section-badge">Testimonials</div>
+                <h2 class="section-title">Loved by Learners Worldwide</h2>
+                <p class="section-subtitle">
+                    See how Hyper Tutor is transforming education and accelerating learning 
+                    for students, professionals, and lifelong learners.
+                </p>
+            </div>
+
+            <div class="testimonials-grid">
+                <div class="testimonial-card scroll-animate">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "Hyper Tutor completely changed how I approach learning. The AI tutor is incredibly 
+                        patient and explains complex calculus concepts in ways that finally make sense. 
+                        I went from struggling with derivatives to acing my exams!"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SM</div>
+                        <div class="author-info">
+                            <h4>Sarah Martinez</h4>
+                            <p>Computer Science Student, MIT</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card scroll-animate">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "As a self-taught developer, I needed a learning companion that could adapt to my 
+                        irregular schedule. The progress tracking and personalized recommendations have 
+                        accelerated my growth beyond what I thought possible."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">DK</div>
+                        <div class="author-info">
+                            <h4>David Kim</h4>
+                            <p>Full-Stack Developer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card scroll-animate">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "The focus mode is a game-changer for my ADHD. The customizable timers and 
+                        ambient sounds help me maintain concentration for hours. I've never been 
+                        this productive with my studies before."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">EJ</div>
+                        <div class="author-info">
+                            <h4>Emily Johnson</h4>
+                            <p>Medical Student</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card scroll-animate">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "I'm learning three programming languages simultaneously, and Hyper Tutor 
+                        keeps everything organized. The skill tracking shows exactly where I am 
+                        in each language, and the AI helps me avoid confusion between syntaxes."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MC</div>
+                        <div class="author-info">
+                            <h4>Marco Chen</h4>
+                            <p>Software Engineer</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card scroll-animate">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "The learning journal feature has transformed my reflection practice. 
+                        I can see patterns in my learning, identify what works best for me, 
+                        and the AI suggestions have dramatically improved my study efficiency."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AL</div>
+                        <div class="author-info">
+                            <h4>Anna Liu</h4>
+                            <p>PhD Candidate, Stanford</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card scroll-animate">
+                    <div class="stars">★★★★★</div>
+                    <p class="testimonial-text">
+                        "Coming back to school after 10 years was intimidating, but Hyper Tutor 
+                        made the transition seamless. The personalized pace and patient AI tutoring 
+                        helped me rebuild my confidence in mathematics and science."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">RT</div>
+                        <div class="author-info">
+                            <h4>Rachel Torres</h4>
+                            <p>Returning Student</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="pricing-container">
+            <div class="section-header scroll-animate">
+                <div class="section-badge">Pricing</div>
+                <h2 class="section-title">Choose Your Learning Path</h2>
+                <p class="section-subtitle">
+                    Flexible plans designed to fit every learner's needs and budget. 
+                    Start free and upgrade as you grow.
+                </p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card scroll-animate">
+                    <div class="plan-name">Starter</div>
+                    <div class="plan-price">Free <span>forever</span></div>
+                    <div class="plan-description">Perfect for getting started with AI-powered learning</div>
+                    <ul class="plan-features">
+                        <li>5 AI tutor sessions per week</li>
+                        <li>Basic learning journal</li>
+                        <li>Progress tracking for 3 skills</li>
+                        <li>Access to community forums</li>
+                        <li>Basic focus timer</li>
+                        <li>Mobile app access</li>
+                    </ul>
+                    <a href="#" class="plan-cta">Get Started Free</a>
+                </div>
+
+                <div class="pricing-card featured scroll-animate">
+                    <div class="plan-name">Pro</div>
+                    <div class="plan-price">$19 <span>/month</span></div>
+                    <div class="plan-description">Comprehensive learning with unlimited AI tutoring</div>
+                    <ul class="plan-features">
+                        <li>Unlimited AI tutor sessions</li>
+                        <li>Advanced learning journal with AI insights</li>
+                        <li>Progress tracking for unlimited skills</li>
+                        <li>Premium focus modes and soundscapes</li>
+                        <li>Advanced analytics and reports</li>
+                        <li>Priority customer support</li>
+                        <li>All integrations included</li>
+                        <li>Offline mode available</li>
+                    </ul>
+                    <a href="#" class="plan-cta">Start Pro Trial</a>
+                </div>
+
+                <div class="pricing-card scroll-animate">
+                    <div class="plan-name">Team</div>
+                    <div class="plan-price">$49 <span>/month</span></div>
+                    <div class="plan-description">Designed for educators, teams, and organizations</div>
+                    <ul class="plan-features">
+                        <li>Everything in Pro plan</li>
+                        <li>Up to 10 team members</li>
+                        <li>Collaborative learning spaces</li>
+                        <li>Team progress dashboard</li>
+                        <li>Custom curriculum creation</li>
+                        <li>Advanced admin controls</li>
+                        <li>White-label options</li>
+                        <li>Dedicated account manager</li>
+                    </ul>
+                    <a href="#" class="plan-cta">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="section-header scroll-animate">
+                <h2 class="section-title">Trusted by Learners Worldwide</h2>
+                <p class="section-subtitle">
+                    Join thousands of successful learners who have transformed their education with Hyper Tutor
+                </p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item scroll-animate">
+                    <span class="stat-number" data-target="75000">0</span>
+                    <span class="stat-label">Active Learners</span>
+                    <p class="stat-description">Growing community of motivated students</p>
+                </div>
+                <div class="stat-item scroll-animate">
+                    <span class="stat-number" data-target="2500000">0</span>
+                    <span class="stat-label">AI Tutoring Sessions</span>
+                    <p class="stat-description">Personalized learning interactions</p>
+                </div>
+                <div class="stat-item scroll-animate">
+                    <span class="stat-number" data-target="94">0</span>
+                    <span class="stat-label">Success Rate</span>
+                    <p class="stat-description">Of users achieve their learning goals</p>
+                </div>
+                <div class="stat-item scroll-animate">
+                    <span class="stat-number" data-target="150">0</span>
+                    <span class="stat-label">Countries</span>
+                    <p class="stat-description">Global reach and accessibility</p>
+                </div>
+                <div class="stat-item scroll-animate">
+                    <span class="stat-number" data-target="40">0</span>
+                    <span class="stat-label">Subjects Covered</span>
+                    <p class="stat-description">From coding to calculus to creativity</p>
+                </div>
+                <div class="stat-item scroll-animate">
+                    <span class="stat-number" data-target="24">0</span>
+                    <span class="stat-label">Hours AI Support</span>
+                    <p class="stat-description">Round-the-clock learning assistance</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="faq-container">
+            <div class="section-header scroll-animate">
+                <div class="section-badge">FAQ</div>
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">
+                    Everything you need to know about Hyper Tutor and how it can transform your learning journey.
+                </p>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item scroll-animate">
+                    <button class="faq-question">
+                        How does the AI tutor work?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Our AI tutor uses advanced language models trained on educational content to provide personalized tutoring across multiple subjects. It adapts to your learning style, remembers your progress, and provides step-by-step explanations tailored to your current level of understanding.
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-animate">
+                    <button class="faq-question">
+                        Can I use Hyper Tutor for multiple subjects?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Absolutely! Hyper Tutor supports over 40 subjects including mathematics, programming, sciences, languages, creative skills, and more. The platform tracks your progress separately for each subject and provides personalized recommendations for each area of study.
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-animate">
+                    <button class="faq-question">
+                        Is there a mobile app available?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Yes! Hyper Tutor is available on iOS and Android devices. The mobile app includes all core features including AI tutoring, learning journal, progress tracking, and focus mode. You can seamlessly sync your progress across all devices.
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-animate">
+                    <button class="faq-question">
+                        How accurate is the AI tutor's guidance?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Our AI tutor maintains a 95%+ accuracy rate across all subjects. We continuously update our models with the latest educational content and user feedback. For complex problems, the AI shows its reasoning process so you can verify the approach and learn the methodology.
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-animate">
+                    <button class="faq-question">
+                        Can I integrate Hyper Tutor with other tools?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Yes! Hyper Tutor integrates with popular tools like Google Calendar, Notion, GitHub, Google Drive, and more. These integrations help you maintain workflow continuity and sync your learning schedule with your existing productivity systems.
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-animate">
+                    <button class="faq-question">
+                        What if I'm not satisfied with the service?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        We offer a 30-day money-back guarantee for all paid plans. If you're not completely satisfied with Hyper Tutor, contact our support team within 30 days for a full refund. We're confident you'll love the platform, but we want you to feel secure in your investment.
+                    </div>
+                </div>
+
+                <div class="faq-item scroll-animate">
+                    <button class="faq-question">
+                        How does progress tracking work?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Our progress tracking uses advanced analytics to monitor your skill development across multiple dimensions including speed, accuracy, consistency, and conceptual understanding. You'll see detailed visualizations of your growth, receive personalized insights, and get recommendations for areas to focus on next.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta">
+        <div class="cta-bg-elements" id="cta-particles"></div>
+        <div class="cta-container">
+            <h2 class="cta-title">Ready to Accelerate Your Learning?</h2>
+            <p class="cta-description">
+                Join thousands of successful learners who have transformed their education with AI-powered tutoring, 
+                comprehensive progress tracking, and personalized study experiences. Start your journey today.
+            </p>
+            <div class="cta-buttons">
+                <a href="#" class="btn-primary">Start Learning for Free</a>
+                <a href="#" class="btn-secondary">Schedule a Demo</a>
+            </div>
+            <p class="cta-guarantee">30-day money-back guarantee • No credit card required</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">Hyper Tutor</div>
+                    <p class="footer-description">
+                        Transforming education through AI-powered tutoring, personalized learning experiences, 
+                        and comprehensive progress tracking. Learn faster, learn smarter, learn better.
+                    </p>
+                    <div class="footer-social">
+                        <a href="#" class="social-link">f</a>
+                        <a href="#" class="social-link">t</a>
+                        <a href="#" class="social-link">in</a>
+                        <a href="#" class="social-link">ig</a>
+                        <a href="#" class="social-link">yt</a>
+                    </div>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Product</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Features</a></li>
+                        <li><a href="#">AI Tutor</a></li>
+                        <li><a href="#">Progress Tracking</a></li>
+                        <li><a href="#">Focus Mode</a></li>
+                        <li><a href="#">Integrations</a></li>
+                        <li><a href="#">Mobile App</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Learning</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Subjects</a></li>
+                        <li><a href="#">Tutorials</a></li>
+                        <li><a href="#">Resource Hub</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Partners</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Reference</a></li>
+                        <li><a href="#">System Status</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                        <li><a href="#">Download</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p class="footer-copyright">
+                    © 2024 Hyper Tutor. All rights reserved.
+                </p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu functionality
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.remove('active');
+                }
+            });
+        });
+
+        // Dynamic navigation background
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(10, 15, 10, 0.98)';
+                nav.style.borderBottom = '1px solid rgba(0, 255, 136, 0.3)';
+            } else {
+                nav.style.background = 'rgba(10, 15, 10, 0.95)';
+                nav.style.borderBottom = '1px solid rgba(0, 255, 136, 0.1)';
+            }
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Special handling for feature cards
+                    if (entry.target.classList.contains('feature-card')) {
+                        entry.target.style.transitionDelay = `${Array.from(entry.target.parentElement.children).indexOf(entry.target) * 0.1}s`;
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all scroll-animate elements
+        document.querySelectorAll('.scroll-animate, .feature-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter animation for stats
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const counter = entry.target;
+                    const target = parseInt(counter.getAttribute('data-target'));
+                    const duration = 2000;
+                    const step = target / (duration / 16);
+                    let current = 0;
+
+                    const timer = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            counter.textContent = target.toLocaleString();
+                            clearInterval(timer);
+                        } else {
+                            counter.textContent = Math.floor(current).toLocaleString();
+                        }
+                    }, 16);
+
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.stat-number[data-target]').forEach(counter => {
+            counterObserver.observe(counter);
+        });
+
+        // FAQ functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const isActive = faqItem.classList.contains('active');
+                
+                // Close all FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                
+                // Open clicked item if it wasn't active
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+
+        // Particle systems
+        function createParticles(container, count, animationClass) {
+            for (let i = 0; i < count; i++) {
+                const particle = document.createElement('div');
+                particle.className = animationClass;
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        // Initialize particles
+        const heroParticles = document.getElementById('hero-particles');
+        const ctaParticles = document.getElementById('cta-particles');
+        
+        if (heroParticles) createParticles(heroParticles, 15, 'hero-particle');
+        if (ctaParticles) createParticles(ctaParticles, 20, 'cta-particle');
+
+        // Enhanced demo content simulation
+        const demoContent = document.querySelector('.demo-content');
+        if (demoContent) {
+            setTimeout(() => {
+                demoContent.innerHTML = `
+                    <div style="text-align: left; max-width: 600px;">
+                        <p style="margin-bottom: 1rem; color: #00ff88;"><strong>AI Tutor:</strong> Hi! I'm ready to help you learn. What would you like to work on today?</p>
+                        <p style="margin-bottom: 1rem; color: #ffffff; background: rgba(255,255,255,0.1); padding: 0.75rem; border-radius: 8px;"><strong>You:</strong> Can you help me understand calculus derivatives?</p>
+                        <p style="margin-bottom: 1rem; color: #00ff88;"><strong>AI Tutor:</strong> Absolutely! Let's start with the basic concept. A derivative represents the rate of change...</p>
+                        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                            <button style="background: #00ff88; color: #0a0f0a; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">Try Interactive Demo</button>
+                            <button style="background: transparent; color: #00ff88; border: 1px solid #00ff88; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer;">Learn More</button>
+                        </div>
+                    </div>
+                `;
+            }, 2000);
+        }
+
+        // Performance optimization: Debounced scroll handler
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            if (scrollTimeout) clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                // Additional scroll-based effects can be added here
+            }, 10);
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            // Trigger initial animations
+            document.body.classList.add('loaded');
+            
+            // Preload critical images and resources
+            const criticalImages = document.querySelectorAll('img[data-preload]');
+            criticalImages.forEach(img => {
+                const imageLoader = new Image();
+                imageLoader.src = img.src;
+            });
+        });
+    </script>
+</body>
+</html>

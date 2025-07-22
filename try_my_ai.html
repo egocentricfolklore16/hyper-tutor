@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="images/logo/logo.png" sizes="20x20">
+    <title>Try AI Tutor - Hyper Tutor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Lexend, sans-serif;
+            background: #0a0f0a;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0a0f0a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #00ff88, #00cc6a);
+            border-radius: 4px;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 15, 10, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(0, 255, 136, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #00ff88;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00ff88, #00cc6a);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00ff88;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .cta-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0f0a;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        .back-btn {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .back-btn:hover {
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .back-btn::before {
+            content: '←';
+            font-size: 1.1rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: 
+                radial-gradient(ellipse at 20% 80%, rgba(0, 255, 136, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(0, 204, 106, 0.1) 0%, transparent 50%);
+            overflow: hidden;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #00ff88;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #ffffff, #00ff88);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .subject-selector {
+            margin-bottom: 3rem;
+        }
+
+        .subject-label {
+            font-size: 1rem;
+            color: #00ff88;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .subject-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .subject-btn.active {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .subject-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .subject-icon {
+            font-size: 1.5rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0f0a;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 1.2rem 2.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #00ff88;
+        }
+
+        /* AI Chat Interface */
+        .ai-chat-demo {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 24px;
+            overflow: hidden;
+            backdrop-filter: blur(15px);
+            animation: fadeInUp 1s ease 0.4s both;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chat-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .ai-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #0a0f0a;
+        }
+
+        .ai-status {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ai-name {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .ai-state {
+            font-size: 0.8rem;
+            color: #00ff88;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #00ff88;
+            animation: pulse 2s infinite;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .action-btn:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .message-avatar.ai {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0a0f0a;
+        }
+
+        .message-avatar.user {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .message-content {
+            max-width: 80%;
+            padding: 1rem 1.5rem;
+            border-radius: 18px;
+            line-height: 1.5;
+        }
+
+        .message.ai .message-content {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .message.user .message-content {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 0.5rem;
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #00ff88;
+            font-style: italic;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .typing-indicator.active {
+            opacity: 1;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 2px;
+        }
+
+        .typing-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #00ff88;
+            animation: typingPulse 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .chat-input {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-end;
+        }
+
+        .message-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            color: #ffffff;
+            font-size: 1rem;
+            resize: none;
+            min-height: 50px;
+            max-height: 120px;
+        }
+
+        .message-input:focus {
+            outline: none;
+            border-color: #00ff88;
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .message-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            color: #0a0f0a;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.3);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .send-btn::after {
+            content: '→';
+            font-size: 1.1rem;
+        }
+
+        /* Quick Questions */
+        .quick-questions {
+            padding: 1rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 255, 136, 0.03);
+        }
+
+        .quick-questions-label {
+            font-size: 0.9rem;
+            color: #00ff88;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .questions-grid {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .quick-question {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .quick-question:hover {
+            background: rgba(0, 255, 136, 0.1);
+            border-color: #00ff88;
+            color: #00ff88;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 8rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(0, 255, 136, 0.03), transparent);
+        }
+
+        .features-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 6rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .section-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 6rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: #00ff88;
+            box-shadow: 0 25px 80px rgba(0, 255, 136, 0.25);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+        }
+
+        .feature-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .feature-benefits {
+            list-style: none;
+        }
+
+        .feature-benefits li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+        }
+
+        .feature-benefits li::before {
+            content: '✓';
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        /* Subjects Section */
+        .subjects-section {
+            padding: 8rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .subjects-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .subject-category {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .subject-category:hover {
+            transform: translateY(-5px);
+            border-color: #00ff88;
+            box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+        }
+
+        .category-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .category-subjects {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .subject-tag {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .category-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 8rem 2rem;
+            background: 
+                linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 106, 0.1)),
+                radial-gradient(ellipse at center, rgba(0, 255, 136, 0.2) 0%, transparent 70%);
+            text-align: center;
+        }
+
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .cta-description {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .nav-cta {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+
+            .subject-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .ai-chat-demo {
+                height: 500px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .subjects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .input-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes typingPulse {
+            0%, 80%, 100% { opacity: 0.5; }
+            40% { opacity: 1; }
+        }
+
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="logo">Hyper Tutor</a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#subjects">Subjects</a></li>
+                <li><a href="#demo">Live Demo</a></li>
+                <li><a href="#examples">Examples</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="landing_page.html" class="back-btn">Back to Home</a>
+                <a href="#" class="cta-btn">Get Started Free</a>
+            </div>
+            <button class="mobile-menu-btn">☰</button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span>🤖</span>
+                    <span>Try our AI tutor for free - no signup required</span>
+                </div>
+                <h1>Experience AI-Powered Learning</h1>
+                <p class="hero-subtitle">
+                    Get instant, personalized help from our advanced AI tutor. Ask questions, solve problems, 
+                    and receive step-by-step explanations across any subject, any time.
+                </p>
+
+                <div class="subject-selector">
+                    <label class="subject-label">Choose a subject to get started:</label>
+                    <div class="subject-grid">
+                        <button class="subject-btn active" data-subject="math">
+                            <span class="subject-icon">📐</span>
+                            <span>Math</span>
+                        </button>
+                        <button class="subject-btn" data-subject="programming">
+                            <span class="subject-icon">💻</span>
+                            <span>Coding</span>
+                        </button>
+                        <button class="subject-btn" data-subject="science">
+                            <span class="subject-icon">🔬</span>
+                            <span>Science</span>
+                        </button>
+                        <button class="subject-btn" data-subject="language">
+                            <span class="subject-icon">🌍</span>
+                            <span>Languages</span>
+                        </button>
+                        <button class="subject-btn" data-subject="writing">
+                            <span class="subject-icon">✍️</span>
+                            <span>Writing</span>
+                        </button>
+                        <button class="subject-btn" data-subject="general">
+                            <span class="subject-icon">🎯</span>
+                            <span>General</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="hero-buttons">
+                    <a href="#" class="btn-primary" onclick="startDemo()">Try AI Tutor Now</a>
+                    <a href="#" class="btn-secondary">See Examples</a>
+                </div>
+            </div>
+
+            <!-- AI Chat Demo -->
+            <div class="ai-chat-demo" id="chatDemo">
+                <div class="chat-header">
+                    <div class="chat-info">
+                        <div class="ai-avatar">AI</div>
+                        <div class="ai-status">
+                            <div class="ai-name">Math Tutor</div>
+                            <div class="ai-state">
+                                <div class="status-dot"></div>
+                                <span>Online & Ready</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-actions">
+                        <button class="action-btn" onclick="clearChat()">Clear</button>
+                        <button class="action-btn" onclick="showExamples()">Examples</button>
+                    </div>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai">
+                        <div class="message-avatar ai">AI</div>
+                        <div class="message-content">
+                            Hi there! I'm your AI tutor. I can help you with math, science, programming, languages, and more. 
+                            What would you like to learn about today?
+                            <div class="message-time">Just now</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="typing-indicator" id="typingIndicator">
+                    <div class="message-avatar ai">AI</div>
+                    <div>
+                        AI is thinking
+                        <div class="typing-dots">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quick-questions">
+                    <div class="quick-questions-label">Quick questions to try:</div>
+                    <div class="questions-grid" id="quickQuestions">
+                        <div class="quick-question" onclick="askQuestion('Explain derivatives in calculus')">Explain derivatives in calculus</div>
+                        <div class="quick-question" onclick="askQuestion('How do loops work in Python?')">How do loops work in Python?</div>
+                        <div class="quick-question" onclick="askQuestion('What is photosynthesis?')">What is photosynthesis?</div>
+                    </div>
+                </div>
+
+                <div class="chat-input">
+                    <div class="input-container">
+                        <textarea class="message-input" id="messageInput" placeholder="Type your question here..." rows="1"></textarea>
+                        <button class="send-btn" id="sendBtn" onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="features-container">
+            <div class="section-header scroll-animate">
+                <div class="section-badge">AI Capabilities</div>
+                <h2 class="section-title">Advanced AI Tutoring Features</h2>
+                <p class="section-subtitle">
+                    Our AI tutor combines cutting-edge language models with educational expertise 
+                    to provide personalized, effective learning experiences.
+                </p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon">🧠</span>
+                    <h3 class="feature-title">Adaptive Learning</h3>
+                    <p class="feature-description">
+                        AI adjusts explanations to your level and learning style, providing personalized 
+                        guidance that evolves as you progress.
+                    </p>
+                    <ul class="feature-benefits">
+                        <li>Remembers your learning history</li>
+                        <li>Adapts difficulty automatically</li>
+                        <li>Identifies knowledge gaps</li>
+                        <li>Suggests optimal learning paths</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon">📋</span>
+                    <h3 class="feature-title">Step-by-Step Solutions</h3>
+                    <p class="feature-description">
+                        Get detailed, methodical explanations that break down complex problems into 
+                        manageable steps with clear reasoning.
+                    </p>
+                    <ul class="feature-benefits">
+                        <li>Detailed problem breakdowns</li>
+                        <li>Multiple solution methods</li>
+                        <li>Visual aids and diagrams</li>
+                        <li>Practice problem generation</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon">💬</span>
+                    <h3 class="feature-title">Natural Conversations</h3>
+                    <p class="feature-description">
+                        Engage in natural dialogue with follow-up questions, clarifications, 
+                        and interactive discussions about any topic.
+                    </p>
+                    <ul class="feature-benefits">
+                        <li>Context-aware responses</li>
+                        <li>Follow-up questions</li>
+                        <li>Clarification requests</li>
+                        <li>Multi-turn conversations</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon">⚡</span>
+                    <h3 class="feature-title">Instant Availability</h3>
+                    <p class="feature-description">
+                        24/7 access to expert-level tutoring without scheduling constraints 
+                        or waiting times.
+                    </p>
+                    <ul class="feature-benefits">
+                        <li>Available anytime, anywhere</li>
+                        <li>No appointment scheduling</li>
+                        <li>Immediate response times</li>
+                        <li>Cross-device synchronization</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon">🎯</span>
+                    <h3 class="feature-title">Multi-Subject Expertise</h3>
+                    <p class="feature-description">
+                        Access expert knowledge across mathematics, sciences, programming, 
+                        languages, and humanities in one integrated platform.
+                    </p>
+                    <ul class="feature-benefits">
+                        <li>40+ subject areas covered</li>
+                        <li>Cross-subject connections</li>
+                        <li>Specialized terminology</li>
+                        <li>Current curriculum alignment</li>
+                    </ul>
+                </div>
+
+                <div class="feature-card scroll-animate">
+                    <span class="feature-icon">📊</span>
+                    <h3 class="feature-title">Progress Tracking</h3>
+                    <p class="feature-description">
+                        Monitor your learning journey with detailed analytics, insights, 
+                        and recommendations for improvement.
+                    </p>
+                    <ul class="feature-benefits">
+                        <li>Learning progress analytics</li>
+                        <li>Strength and weakness identification</li>
+                        <li>Study recommendations</li>
+                        <li>Achievement milestones</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subjects Section -->
+    <section class="subjects-section" id="subjects">
+        <div class="subjects-container">
+            <div class="section-header scroll-animate">
+                <div class="section-badge">Subject Coverage</div>
+                <h2 class="section-title">Learn Anything, Anytime</h2>
+                <p class="section-subtitle">
+                    Our AI tutor covers a comprehensive range of subjects from elementary 
+                    to advanced levels, adapting to your specific needs and curriculum.
+                </p>
+            </div>
+
+            <div class="subjects-grid">
+                <div class="subject-category scroll-animate">
+                    <span class="category-icon">📐</span>
+                    <h3 class="category-title">Mathematics</h3>
+                    <div class="category-subjects">
+                        <span class="subject-tag">Algebra</span>
+                        <span class="subject-tag">Calculus</span>
+                        <span class="subject-tag">Geometry</span>
+                        <span class="subject-tag">Statistics</span>
+                        <span class="subject-tag">Trigonometry</span>
+                    </div>
+                    <p class="category-description">
+                        From basic arithmetic to advanced calculus, get step-by-step solutions 
+                        and conceptual explanations for all math topics.
+                    </p>
+                </div>
+
+                <div class="subject-category scroll-animate">
+                    <span class="category-icon">💻</span>
+                    <h3 class="category-title">Programming</h3>
+                    <div class="category-subjects">
+                        <span class="subject-tag">Python</span>
+                        <span class="subject-tag">JavaScript</span>
+                        <span class="subject-tag">Java</span>
+                        <span class="subject-tag">C++</span>
+                        <span class="subject-tag">Web Dev</span>
+                    </div>
+                    <p class="category-description">
+                        Learn coding concepts, debug programs, and understand algorithms 
+                        with interactive code examples and explanations.
+                    </p>
+                </div>
+
+                <div class="subject-category scroll-animate">
+                    <span class="category-icon">🔬</span>
+                    <h3 class="category-title">Sciences</h3>
+                    <div class="category-subjects">
+                        <span class="subject-tag">Physics</span>
+                        <span class="subject-tag">Chemistry</span>
+                        <span class="subject-tag">Biology</span>
+                        <span class="subject-tag">Earth Science</span>
+                    </div>
+                    <p class="category-description">
+                        Explore scientific concepts with detailed explanations, formulas, 
+                        and real-world applications across all science disciplines.
+                    </p>
+                </div>
+
+                <div class="subject-category scroll-animate">
+                    <span class="category-icon">🌍</span>
+                    <h3 class="category-title">Languages</h3>
+                    <div class="category-subjects">
+                        <span class="subject-tag">English</span>
+                        <span class="subject-tag">Spanish</span>
+                        <span class="subject-tag">French</span>
+                        <span class="subject-tag">German</span>
+                        <span class="subject-tag">Mandarin</span>
+                    </div>
+                    <p class="category-description">
+                        Improve grammar, vocabulary, pronunciation, and conversation skills 
+                        with personalized language learning assistance.
+                    </p>
+                </div>
+
+                <div class="subject-category scroll-animate">
+                    <span class="category-icon">📚</span>
+                    <h3 class="category-title">Humanities</h3>
+                    <div class="category-subjects">
+                        <span class="subject-tag">History</span>
+                        <span class="subject-tag">Literature</span>
+                        <span class="subject-tag">Philosophy</span>
+                        <span class="subject-tag">Psychology</span>
+                    </div>
+                    <p class="category-description">
+                        Dive deep into human culture, history, and thought with comprehensive 
+                        analysis and contextual understanding.
+                    </p>
+                </div>
+
+                <div class="subject-category scroll-animate">
+                    <span class="category-icon">🎨</span>
+                    <h3 class="category-title">Creative Arts</h3>
+                    <div class="category-subjects">
+                        <span class="subject-tag">Design</span>
+                        <span class="subject-tag">Music Theory</span>
+                        <span class="subject-tag">Art History</span>
+                        <span class="subject-tag">Writing</span>
+                    </div>
+                    <p class="category-description">
+                        Enhance your creative skills with guidance on design principles, 
+                        artistic techniques, and creative expression methods.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container">
+            <h2 class="cta-title">Ready to Experience AI Tutoring?</h2>
+            <p class="cta-description">
+                Join thousands of learners who are accelerating their education with personalized AI tutoring. 
+                Start your journey today and unlock your full learning potential.
+            </p>
+            <div class="cta-buttons">
+                <a href="#" class="btn-primary">Start Learning Free</a>
+                <a href="#" class="btn-secondary">View All Features</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // AI responses for different subjects
+        const aiResponses = {
+            math: [
+                "Great question! Let me break down this concept step by step. First, let's understand the fundamental principle...",
+                "I can help you with that! In mathematics, this type of problem requires us to think about the relationship between...",
+                "Perfect! This is a common area where students need clarity. Let me explain the concept and then show you how to apply it..."
+            ],
+            programming: [
+                "Excellent question! In programming, this concept is fundamental. Let me explain with a simple example and then build up to more complex cases...",
+                "I'd be happy to help you with that! This is actually a great opportunity to understand how programming logic works. Let's start with...",
+                "That's a fantastic question about programming! Let me show you both the concept and a practical implementation..."
+            ],
+            science: [
+                "Wonderful question! This scientific concept is really interesting. Let me explain the underlying principles and how they work in practice...",
+                "I love helping with science questions! This topic connects to several important scientific principles. Let's explore...",
+                "Great scientific thinking! Let me break down this concept and show you how it applies to real-world scenarios..."
+            ],
+            general: [
+                "That's an interesting question! Let me provide you with a comprehensive explanation that covers the key aspects...",
+                "I'm here to help! This is a topic that many people find intriguing. Let me share some insights and explain...",
+                "Excellent question! Let me give you a thorough explanation that will help you understand this concept clearly..."
+            ]
+        };
+
+        const quickQuestionsData = {
+            math: [
+                "Explain derivatives in calculus",
+                "How do I solve quadratic equations?",
+                "What is the Pythagorean theorem?"
+            ],
+            programming: [
+                "How do loops work in Python?",
+                "Explain object-oriented programming",
+                "What are JavaScript promises?"
+            ],
+            science: [
+                "What is photosynthesis?",
+                "Explain Newton's laws of motion",
+                "How does DNA replication work?"
+            ],
+            language: [
+                "Explain Spanish verb conjugation",
+                "What are French pronunciation rules?",
+                "How to use English conditionals?"
+            ],
+            writing: [
+                "How to write a compelling essay?",
+                "What makes good character development?",
+                "How to improve writing clarity?"
+            ],
+            general: [
+                "Explain climate change",
+                "What is artificial intelligence?",
+                "How does the stock market work?"
+            ]
+        };
+
+        let currentSubject = 'math';
+        let messageHistory = [];
+
+        // Subject selection
+        document.querySelectorAll('.subject-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.subject-btn').forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                currentSubject = this.dataset.subject;
+                updateQuickQuestions();
+                updateAIName();
+            });
+        });
+
+        function updateQuickQuestions() {
+            const questionsContainer = document.getElementById('quickQuestions');
+            const questions = quickQuestionsData[currentSubject] || quickQuestionsData.general;
+            
+            questionsContainer.innerHTML = questions.map(q => 
+                `<div class="quick-question" onclick="askQuestion('${q}')">${q}</div>`
+            ).join('');
+        }
+
+        function updateAIName() {
+            const aiNameElement = document.querySelector('.ai-name');
+            const subjectNames = {
+                math: 'Math Tutor',
+                programming: 'Coding Tutor',
+                science: 'Science Tutor',
+                language: 'Language Tutor',
+                writing: 'Writing Tutor',
+                general: 'AI Tutor'
+            };
+            aiNameElement.textContent = subjectNames[currentSubject] || 'AI Tutor';
+        }
+
+        // Chat functionality
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            addUserMessage(message);
+            input.value = '';
+            
+            // Show typing indicator
+            showTypingIndicator();
+            
+            // Simulate AI response delay
+            setTimeout(() => {
+                hideTypingIndicator();
+                addAIResponse(message);
+            }, 1500 + Math.random() * 1500);
+        }
+
+        function askQuestion(question) {
+            document.getElementById('messageInput').value = question;
+            sendMessage();
+        }
+
+        function addUserMessage(message) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageEl = document.createElement('div');
+            messageEl.className = 'message user';
+            messageEl.innerHTML = `
+                <div class="message-avatar user">You</div>
+                <div class="message-content">
+                    ${message}
+                    <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                </div>
+            `;
+            messagesContainer.appendChild(messageEl);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            messageHistory.push({role: 'user', content: message});
+        }
+
+        function addAIResponse(userMessage) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const responses = aiResponses[currentSubject] || aiResponses.general;
+            const response = responses[Math.floor(Math.random() * responses.length)];
+            
+            const messageEl = document.createElement('div');
+            messageEl.className = 'message ai';
+            messageEl.innerHTML = `
+                <div class="message-avatar ai">AI</div>
+                <div class="message-content">
+                    ${response}
+                    <div class="message-time">${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</div>
+                </div>
+            `;
+            messagesContainer.appendChild(messageEl);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            messageHistory.push({role: 'ai', content: response});
+        }
+
+        function showTypingIndicator() {
+            document.getElementById('typingIndicator').classList.add('active');
+        }
+
+        function hideTypingIndicator() {
+            document.getElementById('typingIndicator').classList.remove('active');
+        }
+
+        function clearChat() {
+            const messagesContainer = document.getElementById('chatMessages');
+            messagesContainer.innerHTML = `
+                <div class="message ai">
+                    <div class="message-avatar ai">AI</div>
+                    <div class="message-content">
+                        Hi there! I'm your AI tutor. I can help you with math, science, programming, languages, and more. 
+                        What would you like to learn about today?
+                        <div class="message-time">Just now</div>
+                    </div>
+                </div>
+            `;
+            messageHistory = [];
+        }
+
+        function showExamples() {
+            const examples = [
+                "Can you help me solve this equation: 2x + 5 = 15?",
+                "Explain the difference between let and var in JavaScript",
+                "What is the water cycle and how does it work?",
+                "How do I improve my essay writing skills?"
+            ];
+            
+            const randomExample = examples[Math.floor(Math.random() * examples.length)];
+            askQuestion(randomExample);
+        }
+
+        function startDemo() {
+            document.getElementById('chatDemo').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
+            
+            setTimeout(() => {
+                document.getElementById('messageInput').focus();
+            }, 500);
+        }
+
+        // Enter key to send message
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Auto-resize textarea
+        document.getElementById('messageInput').addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.scroll-animate').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Dynamic navigation background
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(10, 15, 10, 0.98)';
+                nav.style.borderBottom = '1px solid rgba(0, 255, 136, 0.3)';
+            } else {
+                nav.style.background = 'rgba(10, 15, 10, 0.95)';
+                nav.style.borderBottom = '1px solid rgba(0, 255, 136, 0.1)';
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            updateQuickQuestions();
+            updateAIName();
+        });
+    </script>
+</body>
+</html>
