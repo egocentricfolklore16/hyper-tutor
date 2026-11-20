@@ -38,5 +38,27 @@ export const activityTemplates = [
 ] as const;
 
 export const partners = ['Lagos Scholars Hub', 'Unity Tutorial Centre', 'Northgate College', 'Delta Study Circle', 'Campus Learning Club'];
-export const proPrice = '₦12,000';
+export const pricingPlans = [
+  {
+    name: 'Free',
+    price: '₦0',
+    note: null,
+    features: ['Access to core study tools', 'Standard AI tutor response', 'Basic progress tracking'],
+    action: 'Current Plan',
+  },
+  {
+    name: 'Pro',
+    price: '₦2,500',
+    note: 'Placeholder price - subject to confirmation',
+    features: ['Everything in Free', 'Unlimited AI Socratic guidance', 'Advanced Analytics & Gaps diagnosis', 'Priority study session access'],
+    action: 'Upgrade to Pro',
+  },
+  {
+    name: 'Elite',
+    price: '₦5,000',
+    note: 'Placeholder price - subject to confirmation',
+    features: ['Everything in Pro', '1-on-1 AI Tutoring custom agents', 'Unlimited practice quizzes & flashcards', '24/7 Priority support'],
+    action: 'Upgrade to Elite',
+  },
+] as const;
 export const searchCourses = courses.map((course) => course[0]);

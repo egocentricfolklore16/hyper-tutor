@@ -1,12 +1,12 @@
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import {
-  Award, BookOpen, Check, CheckCircle2, ChevronLeft, ChevronRight, Flame,
+  Award, BookOpen, CheckCircle2, ChevronLeft, ChevronRight, Flame,
   Layers, LayoutDashboard, Menu, MessageCircleQuestion, Moon, NotebookPen,
   Pause, Play, Search, Sun, Target, Trophy, Users, X, ArrowUp, Timer,
   Bookmark, TrendingUp, ShieldCheck, Zap, Globe2, Mail,
   Share2, ArrowRight,
 } from 'lucide-react';
-import { announcement, courses, partners, proPrice, searchCourses, testimonials } from './content';
+import { announcement, courses, partners, pricingPlans, searchCourses, testimonials } from './content';
 import { submitWaitlistEmail } from './api';
 import { track } from './analytics';
 import { useTheme } from './hooks/useTheme';
@@ -17,6 +17,9 @@ import { useScrollLock } from './hooks/useScrollLock';
 import { useInstallPrompt } from './hooks/useInstallPrompt';
 import { HyperOwl } from '../components/mascot/HyperOwl';
 import owlWingsUpWebp from '../assets/mascot/owl-wings-up.webp';
+import profilePhoto from '../../poeple/Screenshot 2026-11-20 134041.png';
+
+const AUTH_URL = 'https://tutor-iota-silk.vercel.app/login';
 
 function setOwlThinking(active: boolean) {
   window.dispatchEvent(new CustomEvent('owl:thinking', { detail: { active } }));
@@ -50,62 +53,9 @@ function Announcement() {
     <div className="announcement" role="region" aria-label="Announcement">
       <div className="announcement-inner">
         <span className="announcement-text"><span aria-hidden="true">🦉</span>{announcement.text}</span>
-        <a href="#signup" onClick={() => document.querySelector('#signup')?.scrollIntoView({ behavior: 'smooth' })}>{announcement.link}</a>
+        <a href={AUTH_URL}>{announcement.link}</a>
         <button className="icon-button" onClick={dismiss} aria-label="Dismiss announcement"><X size={18} /></button>
       </div>
-    </div>
-  );
-}
-
-function EmailCapture({ variant, ctaLabel, source }: { variant: 'hero' | 'enterprise' | 'community'; ctaLabel: string; source: string }) {
-  const [email, setEmail] = useState('');
-  const [state, setState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [message, setMessage] = useState('');
-  const lastSubmit = useRef(0);
-  const submit = async (event: FormEvent) => {
-    event.preventDefault();
-    const trimmed = email.trim().toLowerCase();
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
-      setState('error');
-      setMessage('Enter a valid email address.');
-      return;
-    }
-    if (Date.now() - lastSubmit.current < 3000) {
-      setState('error');
-      setMessage('Please wait a few seconds before trying again.');
-      return;
-    }
-    lastSubmit.current = Date.now();
-    setState('submitting');
-    const result = await submitWaitlistEmail(trimmed, source);
-    if (result.ok) {
-      setState('success');
-      setMessage("You're in! Check your email to finish setting up.");
-      track('signup_submit_success', { source, variant });
-      setOwlThinking(false);
-      window.dispatchEvent(new Event('owl:happy'));
-    } else {
-      setState('error');
-      setMessage(result.reason === 'invalid' ? 'Enter a valid email address.' : 'We could not save that email. Please try again.');
-      track('signup_submit_failure', { source, variant, reason: result.reason });
-    }
-  };
-  return (
-    <div className={`email-capture email-${variant}`}
-      onFocusCapture={() => setOwlThinking(true)}
-      onBlurCapture={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setOwlThinking(false);
-      }}>
-      <form onSubmit={submit} noValidate>
-        <label className="sr-only" htmlFor={`${variant}-${source}-email`}>Email address</label>
-        <input id={`${variant}-${source}-email`} value={email} onChange={(event) => setEmail(event.target.value)}
-          placeholder="Enter your email" type="email" autoComplete="email" disabled={state === 'submitting'} />
-        <span className="honeypot"><label>Company<input name="company" tabIndex={-1} autoComplete="off" /></label></span>
-        <button className="primary-button" type="submit" disabled={state === 'submitting'}>
-          {state === 'submitting' ? <><span className="spinner" />Saving…</> : state === 'success' ? <><Check size={18} />{ctaLabel}</> : ctaLabel}
-        </button>
-      </form>
-      {message && <p className={state === 'success' ? 'form-success' : 'form-error'} role="status" aria-live="polite">{message}</p>}
     </div>
   );
 }
@@ -150,8 +100,8 @@ function Navbar() {
           <div className="nav-actions">
             <button className="search-button" onClick={() => setSearch(true)} aria-label="Search courses"><Search size={17} /><span>Search courses…</span><kbd>/</kbd></button>
             <button className="icon-button theme-button" onClick={toggle} aria-label={dark ? 'Use light mode' : 'Use dark mode'}>{dark ? <Sun /> : <Moon />}</button>
-            <a className="sign-in" href="/landing page/log_in.html">Sign in</a>
-            <a className="primary-button nav-signup" href="/landing page/sign_up.html">Sign up</a>
+            <a className="sign-in" href={AUTH_URL}>Sign in</a>
+            <a className="primary-button nav-signup" href={AUTH_URL}>Sign up</a>
             <button className="icon-button menu-button" onClick={() => setDrawer(true)} aria-label="Open menu"><Menu /></button>
           </div>
         </nav>
@@ -190,7 +140,7 @@ function Navbar() {
             <details key={name}><summary>{name}</summary><div className="drawer-links"><a href="#platform">Courses</a><a href="#audience">For your level</a><a href="#stories">Success stories</a></div></details>
           ))}
           <a className="drawer-row" href="#pricing">Pricing</a>
-          <div className="drawer-actions"><a className="outline-button" href="/landing page/log_in.html">Sign in</a><a className="primary-button" href="/landing page/sign_up.html">Sign up</a></div>
+          <div className="drawer-actions"><a className="outline-button" href={AUTH_URL}>Sign in</a><a className="primary-button" href={AUTH_URL}>Sign up</a></div>
         </div>
       )}
       {search && <SearchModal onClose={() => setSearch(false)} />}
@@ -220,10 +170,10 @@ function Hero() {
         <div className="eyebrow">New: courses built by AI, scheduled around your life</div>
         <h1 id="hero-title">Learning still starts with <span className="you">you<svg viewBox="0 0 180 18" aria-hidden="true"><path d="M3 13C46 3 132 3 177 11" /></svg></span></h1>
         <p className="hero-subhead">Hyper Tutor is the AI study platform that asks the right questions, builds your roadmap and keeps you showing up, whether you are chasing JAMB, a degree, or your next professional exam.</p>
-        <div id="signup"><EmailCapture variant="hero" ctaLabel="Start learning free" source="hero" /></div>
+        <div id="signup" className="email-capture email-hero"><a className="primary-button" href={AUTH_URL}>Start learning free</a></div>
         <button className="outline-button install-cta" onClick={() => document.querySelector('#install-card')?.scrollIntoView({ behavior: 'smooth' })}>Install the app</button>
         <p className="trust-copy">Free forever plan. No card needed. Works on any phone.</p>
-        <p className="google-copy">or continue with <a href="/landing page/log_in.html">Google</a></p>
+        <p className="google-copy">or continue with <a href={AUTH_URL}>Google</a></p>
       </Reveal>
       <Reveal className="walkthrough"><ProductWalkthrough /></Reveal>
     </section>
@@ -265,7 +215,7 @@ function ActivityBand() {
               const Icon = iconMap[item.icon as keyof typeof iconMap];
               return (
                 <div className="activity-card" key={`${item.name}-${index}`}>
-                  <span className={`avatar avatar-${index % 5}`}>{item.name.slice(0, 1)}</span>
+                  <img className={`avatar avatar-${index % 5}`} src={profilePhoto} alt="" />
                   <div><b>{item.name}</b> {item.action}<small>{index + 1} min ago</small></div>
                   <Icon size={18} />
                 </div>
@@ -310,7 +260,7 @@ function AdaptiveSection() {
           <p className="kicker">Adaptive engine</p>
           <h2 id="adaptive-title">Let Hyper Tutor pick how you learn</h2>
           <p>Some topics need a worked example. Some need a hard question. Some need a flashcard at exactly the right moment. Our adaptive engine blends Socratic questioning, spaced repetition and practice quizzes to match your level, your gaps and your learning style.</p>
-          <div className="button-row"><a className="primary-button" href="/landing page/sign_up.html">Get started for free</a><a className="text-link" href="#how-it-works">See how it works →</a></div>
+          <div className="button-row"><a className="primary-button" href={AUTH_URL}>Get started for free</a><a className="text-link" href="#how-it-works">See how it works →</a></div>
         </div>
         <div className="adaptive-card">
           <div className="meters"><span><b>Quality</b><i style={{ width: mode === 'Worked example' ? '92%' : '78%' }} /></span><span><b>Speed</b><i style={{ width: mode === 'Flashcards' ? '88%' : '65%' }} /></span><span><b>Effort</b><i style={{ width: mode === 'Socratic' ? '86%' : '70%' }} /></span></div>
@@ -382,7 +332,7 @@ function AudienceSection() {
   const current = tabs[tab];
   return (
     <section className="section soft-section" id="audience" aria-labelledby="audience-title">
-      <Reveal className="audience-heading"><p className="kicker centered">Choose your route</p><h2 id="audience-title">Whatever you're studying for, you can learn it on Hyper Tutor</h2><a className="primary-button" href="/landing page/sign_up.html">Start free</a></Reveal>
+      <Reveal className="audience-heading"><p className="kicker centered">Choose your route</p><h2 id="audience-title">Whatever you're studying for, you can learn it on Hyper Tutor</h2><a className="primary-button" href={AUTH_URL}>Start free</a></Reveal>
       <div className="audience-tabs" role="tablist" aria-label="Audience">
         {tabs.map((item, index) => <button role="tab" aria-selected={tab === index} key={item.name} onClick={() => { setTab(index); track('audience_tab_change', { tab: item.name }); }}>{item.name}</button>)}
       </div>
@@ -390,7 +340,7 @@ function AudienceSection() {
         <ul>{current.bullets.map((bullet) => <li key={bullet}><CheckCircle2 />{bullet}</li>)}</ul>
         <div className="audience-visual"><span className="visual-label">{current.visual}</span>{tab === 0 && <><b>112 days left</b><div className="plan-row">Physics · 45 min</div><div className="plan-row">English · 30 min</div></>}{tab === 1 && <><b>Semester 4</b><div className="progress-line"><i style={{ width: '72%' }} /></div><div className="plan-row">Economics · Mon 3 PM</div></>}{tab === 2 && <><b>Taxation 68%</b><div className="progress-line violet-progress"><i style={{ width: '68%' }} /></div><div className="plan-row">Next module · Revenue</div></>}{tab === 3 && <><b>Class knowledge gaps</b><div className="heatmap">{[1,2,3,4,5,6,7,8,9].map((n) => <i className={`heat-${n % 3}`} key={n} />)}</div></>}</div>
       </Reveal>
-      <div className="audience-cta">{tab === 3 ? <><a className="primary-button" href="/contact?type=schools">Start a school trial</a><a className="text-link" href="/contact">Talk to us</a></> : <a className="primary-button" href="/landing page/sign_up.html">Start free</a>}</div>
+      <div className="audience-cta">{tab === 3 ? <><a className="primary-button" href="/contact?type=schools">Start a school trial</a><a className="text-link" href="/contact">Talk to us</a></> : <a className="primary-button" href={AUTH_URL}>Start free</a>}</div>
     </section>
   );
 }
@@ -400,8 +350,14 @@ function PricingTeaser() {
     <section className="pricing-teaser" id="pricing" aria-labelledby="pricing-title">
       <Reveal><p className="kicker centered">Simple pricing</p><h2 className="section-title" id="pricing-title">Start small. Learn as far as you want.</h2></Reveal>
       <div className="pricing-grid">
-        {[['Free', '₦0', 'Core roadmap + limited tutor messages', 'signup/free'], ['Pro', proPrice, 'Unlimited tutor + advanced analytics', 'signup/pro'], ['Schools', 'Contact us', 'Team dashboards and bulk onboarding', 'contact/school']].map(([name, price, copy, link]) => (
-          <Reveal className="price-card" key={name}><h3>{name}</h3><strong>{price}</strong><p>{copy}</p>{name === 'Pro' && <small>Illustrative placeholder price</small>}<a className={name === 'Pro' ? 'primary-button' : 'outline-button'} href={name === 'Schools' ? '/contact?type=schools' : `/landing page/sign_up.html?plan=${link.endsWith('pro') ? 'pro' : 'free'}`}>{name === 'Schools' ? 'Talk to us' : `Choose ${name}`}</a></Reveal>
+        {pricingPlans.map(({ name, price, note, features, action }) => (
+          <Reveal className="price-card" key={name}>
+            <h3>{name}</h3>
+            <strong>{price}<span> /month</span></strong>
+            {note && <small>{note}</small>}
+            <ul className="price-features">{features.map((feature) => <li key={feature}><CheckCircle2 aria-hidden="true" />{feature}</li>)}</ul>
+            <a className={name === 'Pro' ? 'primary-button' : 'outline-button'} href={AUTH_URL}>{action}</a>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -424,7 +380,7 @@ function Testimonials() {
       <div className="testimonial-card" tabIndex={0} onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)} onBlur={() => setPaused(false)}
         onKeyDown={(event) => { if (event.key === 'ArrowLeft') move(-1); if (event.key === 'ArrowRight') move(1); }} aria-live="polite">
         <div className="quote-mark">“</div><blockquote key={slide}>{current.quote}</blockquote>
-        <div className="quote-person"><span className={`avatar avatar-${slide}`}>{current.name[0]}</span><div><b>{current.name}</b><small>{current.role}</small></div></div>
+        <div className="quote-person"><img className={`avatar avatar-${slide}`} src={profilePhoto} alt="" /><div><b>{current.name}</b><small>{current.role}</small></div></div>
       </div>
       <div className="carousel-controls"><button className="icon-button" onClick={() => move(-1)} aria-label="Previous testimonial"><ChevronLeft /></button><div className="dots">{testimonials.map((_, index) => <button aria-label={`Show testimonial ${index + 1}`} aria-current={slide === index} key={index} onClick={() => setSlide(index)} />)}</div><button className="icon-button" onClick={() => move(1)} aria-label="Next testimonial"><ChevronRight /></button></div>
       <div className="proof-stats"><Stat value="1M+" label="study sessions completed" /><Stat value="85%" label="of learners improved quiz scores in 30 days" /></div>
@@ -484,7 +440,7 @@ function CommunityCTA() {
   return (
     <section className="section community-section" aria-labelledby="community-title">
       <Reveal className="community-panel">
-        <div className="community-copy"><p>Built by learners, for learners</p><h2 id="community-title">Join the largest study community Africa has seen</h2><p>Every streak, every quiz and every study group makes the community stronger. Create your free account, find your people and level up together.</p><EmailCapture variant="community" ctaLabel="Create my free account" source="community" /></div>
+        <div className="community-copy"><p>Built by learners, for learners</p><h2 id="community-title">Join the largest study community Africa has seen</h2><p>Every streak, every quiz and every study group makes the community stronger. Create your free account, find your people and level up together.</p><div className="email-capture"><a className="primary-button" href={AUTH_URL}>Create my free account</a></div></div>
         <div className="collage"><div className="float-card badge-flame" aria-hidden="true">🔥 14-day streak</div><div className="float-card leaderboard" aria-hidden="true"><b>Leaderboard</b><span>1 Ada</span><span>2 Emeka</span><span>3 Zainab</span></div><div className="float-card group" aria-hidden="true">👥 SS3 Physics Squad</div><div className="float-card quest" aria-hidden="true">✓ Daily quest complete +20 XP</div><div className="float-card achievement" aria-hidden="true">🏅 7-day spark</div><HyperOwl className="community-owl" pose="wings-up" size={260} followCursor={false} /></div>
       </Reveal>
     </section>
