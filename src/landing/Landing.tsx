@@ -165,7 +165,6 @@ function Hero() {
   return (
     <section className="hero" id="top" aria-labelledby="hero-title">
       <div className="hero-circle circle-left" /><div className="hero-circle circle-right" />
-      <HyperOwl className="hero-owl" pose="wings-up" size={320} />
       <Reveal className="hero-stack">
         <div className="eyebrow">New: courses built by AI, scheduled around your life</div>
         <h1 id="hero-title">Learning still starts with <span className="you">you<svg viewBox="0 0 180 18" aria-hidden="true"><path d="M3 13C46 3 132 3 177 11" /></svg></span></h1>
@@ -175,7 +174,10 @@ function Hero() {
         <p className="trust-copy">Free forever plan. No card needed. Works on any phone.</p>
         <p className="google-copy">or continue with <a href={AUTH_URL}>Google</a></p>
       </Reveal>
-      <Reveal className="walkthrough"><ProductWalkthrough /></Reveal>
+      <div className="hero-showcase">
+        <HyperOwl className="hero-owl" pose="wings-up" size={320} />
+        <Reveal className="walkthrough"><ProductWalkthrough /></Reveal>
+      </div>
     </section>
   );
 }

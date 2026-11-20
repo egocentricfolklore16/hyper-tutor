@@ -118,3 +118,79 @@ button:focus-visible,a:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.15ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.15ms!important}.hero-owl,.ticker-label span,.float-card,.partner-marquee>div{animation:none!important}.reveal{opacity:1;transform:none}
 }
+
+@media (max-width:639px) {
+  html { overflow-x:clip; }
+  .announcement-inner { gap:.4rem; padding-inline:.75rem; font-size:.75rem; }
+  .announcement-inner>a { font-size:.75rem; }
+  .nav-inner { padding-inline:.75rem; }
+  .hero { padding:3rem .875rem 1.5rem; }
+  .hero h1 { max-width:14ch; margin-inline:auto; font-size:clamp(2.35rem,11vw,3.75rem); }
+  .hero-subhead { max-width:38ch; }
+  .hero-showcase { position:relative; }
+  .hero-owl { position:absolute; z-index:2; top:-56px; right:-8px; bottom:auto; margin:0; }
+  .hero-owl .hyper-owl { width:160px; }
+  .hero-showcase .walkthrough { position:relative; z-index:3; margin-top:1.5rem; }
+  .browser-frame { border-radius:1.125rem; }
+  .browser-bar { padding-inline:.55rem; }
+  .browser-bar b { max-width:58%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .mock-app main { min-width:0; padding:.9rem; }
+  .mock-heading { gap:.5rem; }
+  .chip-row { overflow-x:auto; padding-bottom:.25rem; scrollbar-width:none; }
+  .chip-row::-webkit-scrollbar,.mode-tabs::-webkit-scrollbar,.audience-tabs::-webkit-scrollbar,.course-filters::-webkit-scrollbar { display:none; }
+  .chip-row b { flex:none; }
+  .pomodoro { flex-wrap:wrap; gap:.5rem; }
+  .pomodoro-ring { width:58px; height:58px; border-width:6px; }
+  .xp { width:min(100px,32vw); }
+  .section,.activity-section,.pricing-teaser,.trust-section { padding:3.5rem .875rem; }
+  .section-title,.section-copy h2,.audience-heading h2 { overflow-wrap:anywhere; }
+  .adaptive-grid>*,.platform-grid>*,.bento-grid>*,.stories-grid>*,.course-grid>*,.pricing-grid>* { min-width:0; }
+  .adaptive-card { padding:1rem 1rem 150px; margin:0; }
+  .mode-tabs { padding-bottom:.25rem; scrollbar-width:none; }
+  .mode-tabs button,.audience-tabs button,.course-filters button { flex:none; }
+  .platform-card { padding:1rem; border-radius:1.5rem; }
+  .coded-roadmap { padding:.75rem; }
+  .coded-roadmap { min-height:0; overflow:visible; }
+  .week-grid { grid-template-columns:repeat(2,minmax(0,1fr)); overflow:visible; padding-bottom:0; }
+  .week-grid>div { min-width:0; }
+  .week-grid i { min-height:84px; }
+  .audience-tabs,.course-filters { overflow-x:auto; flex-wrap:nowrap; justify-content:flex-start; padding-bottom:.35rem; scrollbar-width:none; }
+  .audience-panel { gap:1rem; padding:1rem; }
+  .audience-panel ul { margin:.25rem 0; }
+  .audience-panel li { align-items:flex-start; }
+  .audience-visual { min-width:0; padding:1rem; }
+  .audience-visual>b { font-size:1.65rem; overflow-wrap:anywhere; }
+  .audience-cta { flex-wrap:wrap; }
+  .testimonial-card { min-height:0; }
+  .testimonial-card blockquote { min-height:0; }
+  .story-row { min-width:0; }
+  .story-row>div { min-width:0; }
+  .story-row h3,.story-row p { overflow-wrap:anywhere; }
+  .activity-card { min-width:0; }
+  .activity-card>div { min-width:0; overflow-wrap:anywhere; }
+  .community-panel { gap:.5rem; }
+  .community-copy h2 { font-size:clamp(1.9rem,9vw,2.25rem); }
+  .collage { max-width:100%; overflow:hidden; }
+  .newsletter form { align-items:stretch; }
+  .newsletter form .primary-button { flex:none; }
+  .card-links { flex-wrap:wrap; gap:.75rem; }
+  .footer-grid { gap:1rem; }
+  .footer-grid a,.legal a,.legal button { overflow-wrap:anywhere; }
+  .footer-bottom { gap:.75rem; }
+  .socials { flex-wrap:wrap; }
+  .install-banner { bottom:calc(5.75rem + env(safe-area-inset-bottom)); }
+  .consent-strip { bottom:calc(.75rem + env(safe-area-inset-bottom)); }
+  .back-top { bottom:calc(.75rem + env(safe-area-inset-bottom)); }
+}
+
+@media (max-width:380px) {
+  .logo { gap:.3rem; font-size:.9rem; }
+  .nav-actions { gap:0; }
+  .hero h1 { font-size:clamp(2.2rem,10.5vw,2.6rem); }
+  .primary-button,.outline-button { padding-inline:.9rem; }
+  .footer-grid { grid-template-columns:1fr; }
+  .footer-grid>div:first-child { grid-column:auto; }
+  .newsletter form { flex-direction:column; }
+  .install-banner { grid-template-columns:40px 1fr; }
+  .install-banner img { width:40px; height:40px; }
+}
