@@ -1,0 +1,38 @@
+{
+  "name": "hyper-tutor",
+  "version": "1.0.0",
+  "description": "HyperTutor is an intelligent, productivity-driven companion built to supercharge your learning journey. Whether you're a developer, designer, or lifelong learner, HyperTutor adapts to your learning goals and delivers curated content, study streaks, real-time feedback, and motivational nudges — all in a clean, user-friendly interface.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/egocentricfolklore16/hyper-tutor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/egocentricfolklore16/hyper-tutor/issues"
+  },
+  "homepage": "https://github.com/egocentricfolklore16/hyper-tutor#readme",
+  "dependencies": {
+    "lucide-react": "^1.77.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.7.0",
+    "postcss": "^8.5.33",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.7"
+  }
+}
